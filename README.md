@@ -2,6 +2,10 @@
 
 Proyecto de análisis de datos de la **Gerencia de Gestión de Residuos de Aguas de Bogotá**. Este portal reúne los tableros de Power BI asociados a sus contratos para que la gerencia consulte los análisis y el seguimiento de cada uno desde un solo lugar. Cada tablero mantiene su propio modelo de datos; el sitio centraliza el acceso y permite verlo en pantalla completa.
 
+Al abrir el portal o cambiar de contrato, una pantalla de carga con el emblema institucional acompaña la transición hasta que el visor responde. Si Power BI tarda demasiado, el portal libera la vista automáticamente.
+
+La navegación entre páginas **dentro** de un tablero público de Power BI ocurre en su `iframe` y no emite eventos al portal. Para mostrar este cargador también en esas páginas internas haría falta una integración mediante la API de inserción de Power BI.
+
 ![Vista general del portal de tableros de Gestión de Residuos](assets/vista-general-portal.png)
 
 ## Estado del catálogo
