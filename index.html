@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b172b" />
+    <meta name="description" content="Tableros ejecutivos de Power BI de la Gerencia de Gestión de Residuos de Aguas de Bogotá." />
+    <title>Tableros de Gestión de Residuos | Aguas de Bogotá</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <script defer src="./data/reports.js"></script>
+    <script defer src="./assets/app.js"></script>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar" aria-label="Navegación de tableros">
+        <div class="sidebar-top">
+          <span class="sidebar-label">GESTIÓN DE RESIDUOS</span>
+          <button id="close-sidebar" class="icon-button sidebar-close" type="button" aria-label="Cerrar menú">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div class="sidebar-intro">
+          <h1>Tableros de<br /><span>análisis gerencial</span></h1>
+          <p>Acceso a los análisis de datos y al seguimiento de contratos de la Gerencia de Gestión de Residuos.</p>
+        </div>
+
+        <div class="sidebar-content">
+          <div class="section-heading"><span>TABLEROS POWER BI</span><span id="sidebar-count">01 / 14</span></div>
+          <label class="search-field">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
+            <input id="report-search" type="search" placeholder="Buscar contrato o tema..." autocomplete="off" aria-label="Buscar contrato o tema" />
+            <kbd>/</kbd>
+          </label>
+          <nav id="report-list" class="report-list" aria-label="Tableros de contratos"></nav>
+          <p id="empty-search" class="empty-search" hidden>No hay tableros que coincidan con la búsqueda.</p>
+        </div>
+
+        <div class="sidebar-bottom">
+
+          <div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div>
+          <p>Los tableros pendientes se habilitarán a medida que se publiquen.</p>
+        </div>
+      </aside>
+
+      <div id="mobile-backdrop" class="mobile-backdrop" hidden></div>
+
+      <main class="main-area">
+        <div class="page-content">
+          <section class="report-section" aria-labelledby="report-title">
+            <div class="report-header">
+              <div class="report-brand"><img src="./assets/logo-aguas-bogota-horizontal.png" width="242" height="98" alt="Aguas de Bogotá S.A. E.S.P." /></div>
+              <div class="report-heading-row">
+                <button id="open-sidebar" class="icon-button menu-button" type="button" aria-label="Abrir menú de tableros">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
+                <div class="report-heading-group">
+                  <span id="report-status" class="status-pill"><span></span> DISPONIBLE</span>
+                  <div class="report-title-line"><h3 id="report-title">Contrato CL 457-2025 UAESP</h3><span id="report-index">01 / 14</span></div>
+                  <p id="report-description">Recolección y gestión de residuos especiales; recuperación del espacio público.</p>
+                </div>
+              </div>
+              <div class="report-actions">
+                <button id="copy-link" class="action-button" type="button" title="Copiar enlace del tablero" aria-label="Copiar enlace del tablero">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg><span>Copiar enlace</span>
+                </button>
+                <a id="open-report" class="action-button" href="#" target="_blank" rel="noopener noreferrer" title="Abrir tablero en otra pestaña">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 5h6v6M19 5l-9 9"/><path d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5"/></svg><span>Abrir aparte</span>
+                </a>
+                <button id="fullscreen-button" class="primary-button" type="button" title="Ampliar tablero a pantalla completa">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 4H4v4M16 4h4v4M4 16v4h4M20 16v4h-4"/></svg><span>Pantalla completa</span>
+                </button>
+              </div>
+            </div>
+            <div id="viewer" class="viewer">
+              <div class="viewer-topline"><div class="viewer-label"><span class="live-dot"></span><span id="viewer-label">TABLERO INTERACTIVO</span></div><span>POWER BI <span class="viewer-topline-divider">/</span> AGUAS DE BOGOTÁ</span></div>
+              <div id="viewer-content" class="viewer-content"></div>
+              <button id="exit-fullscreen" class="exit-fullscreen" type="button" aria-label="Salir de pantalla completa">Salir de pantalla completa <span>Esc</span></button>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
