@@ -17,7 +17,7 @@ window.REPORTS = [
   contrato(5, 'Contrato 185-2025', '', 'Transporte y disposición final de residuos.'),
   contrato(6, 'Contrato 306-2025', '', 'Procesos ambientales, consumo responsable, separación en la fuente y reciclaje.'),
   contrato(7, 'Contrato 384-2025', '', 'Educación ambiental, restauración ecológica y jardinería urbana en Teusaquillo.'),
-  contrato(8, 'Contrato 736-2025', '', 'Restauración ecológica, renaturalización y mantenimiento del arbolado en Suba.'),
+  contrato(8, 'Contrato 736-2025 Fondo Local de Suba', '', 'Restauración ecológica, renaturalización y mantenimiento del arbolado en Suba.'),
   contrato(9, 'Contrato 1475-2025', '', 'Estudios, diseños y construcción de redes locales del tanque El Vínculo en Soacha.'),
   contrato(10, 'Contrato 2509-2025', '', 'Recolección y disposición de residuos sólidos en puntos críticos de Soacha.'),
   contrato(11, 'Contrato 3799 2025', '', 'Aseo y servicios conexos en parques, jardines y piscinas.'),

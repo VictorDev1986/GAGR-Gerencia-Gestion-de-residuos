@@ -16,7 +16,7 @@
     'Publicación y entrega',
   ];
 
-  const STORAGE_KEY = 'gagr-cronograma-tableros-v3';
+  const STORAGE_KEY = 'gagr-cronograma-tableros-v4';
   const PLAN_START = new Date('2026-09-21T00:00:00');
   const ESTADOS_TABLERO = ['Pendiente', 'En proceso', 'Completado', 'Bloqueado'];
   const contratosIniciales = [
@@ -24,8 +24,8 @@
     { id: '3799', proyecto: 'IDRD', responsable: 'Angie Totaitive / Geraldine Fonseca', fechaTerminacion: '2027-12-28', fechaInicioPlaneada: '2026-09-24', fechaFinPlaneada: '2026-09-27', semana: 1, prioridad: 'Alta', estado: 'Pendiente', estadosFases: ['Completado', 'Completado', 'Completado', 'En proceso', ...Array(8).fill('Pendiente')] },
     { id: '1475-2025', proyecto: 'PTAR El Salitre', responsable: 'Ancizar Ramirez', fechaTerminacion: '2027-09-30', fechaInicioPlaneada: '2026-09-28', fechaFinPlaneada: '2026-10-01', semana: 2, prioridad: 'Media', estado: 'Pendiente' },
     { id: '185-2025', proyecto: 'Desbuild Embajada', responsable: 'Gabriela Canal', fechaTerminacion: '2027-04-30', fechaInicioPlaneada: '2026-10-02', fechaFinPlaneada: '2026-10-05', semana: 2, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '01-2025', proyecto: 'Caudales', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-10-06', fechaFinPlaneada: '2026-10-08', semana: 3, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '736-2025', proyecto: 'Gerencia Integral Soacha / Tanque El Vínculo', responsable: 'Angie Alexandra Totaitive Beltran', fechaTerminacion: '2026-12-03', fechaInicioPlaneada: '2026-10-09', fechaFinPlaneada: '2026-10-12', semana: 3, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '01-2025', proyecto: 'Alboreto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-10-06', fechaFinPlaneada: '2026-10-08', semana: 3, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '736-2025', proyecto: 'Fondo de desarrollo Local de Suba', responsable: 'Angie Alexandra Totaitive Beltran', fechaTerminacion: '2026-12-03', fechaInicioPlaneada: '2026-10-09', fechaFinPlaneada: '2026-10-12', semana: 3, prioridad: 'Media', estado: 'Pendiente' },
     { id: '469-2024', proyecto: 'RENOBO', responsable: 'Guillermo Trejos', fechaTerminacion: '2026-12-05', fechaInicioPlaneada: '2026-10-13', fechaFinPlaneada: '2026-10-15', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
     { id: '2358-2025', proyecto: 'Soacha', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-29', fechaInicioPlaneada: '2026-10-16', fechaFinPlaneada: '2026-10-19', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
     { id: '2949-2024', proyecto: 'Soacha Gerenciamiento', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-30', fechaInicioPlaneada: '2026-10-20', fechaFinPlaneada: '2026-10-22', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
@@ -35,6 +35,7 @@
     { id: '2509-2025', proyecto: 'Alcaldía de Soacha - Puntos Críticos', responsable: 'Gabriela Canal', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 7, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '411-2025', proyecto: 'Fondo de Desarrollo Local de La Candelaria', responsable: 'Andrea López', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-06', fechaFinPlaneada: '2026-11-09', semana: 7, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '840-2025', proyecto: 'Ministerio del Deporte', responsable: 'Leonardo Reyes', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-10', fechaFinPlaneada: '2026-11-13', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
+    { id: '1561-2026', proyecto: 'Idutaches', responsable: 'Juliana Pinzon', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-14', fechaFinPlaneada: '2026-11-16', semana: 8, prioridad: 'Media', estado: 'Pendiente' },
   ];
 
   const $ = (selector) => document.querySelector(selector);
