@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b172b" />
+  <meta name="description" content="Cronograma ejecutivo de desarrollo de tableros de Aguas de Bogotá." />
+  <title>Cronograma de Desarrollo de Tableros · GAGR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.min.js"></script>
+  <style>
+    :root { font-family: 'DM Sans', sans-serif; color: #17253c; --navy: #0b172b; --orange: #f47d25; --orange-soft: #fff1e7; --line: #e4eaf0; --muted: #718197; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f7fa; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    svg { width: 18px; height: 18px; }
+    button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #65d2c6; outline-offset: 3px; }
+    .app-shell { display: flex; min-height: 100vh; }
+    .page-loader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 20px; background: radial-gradient(circle at 50% 30%, #203b50 0, #101d30 55%, #0b172b 100%); opacity: 1; visibility: visible; transition: opacity .3s ease, visibility .3s ease; }
+    .page-loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-panel { width: min(360px, 100%); padding: 28px 26px 25px; background: #fff; border: 1px solid rgba(255,255,255,.7); border-radius: 14px; text-align: center; box-shadow: 0 25px 75px rgba(0,0,0,.25); }
+    .loader-kicker { display: block; color: #a65b2d; font: 800 10px 'Manrope', sans-serif; letter-spacing: .12em; }
+    .loader-mark { position: relative; width: 118px; height: 118px; margin: 20px auto 16px; display: grid; place-items: center; }
+    .loader-mark:before { content: ''; position: absolute; inset: 0; border: 2px solid #ffe5d1; border-top-color: var(--orange); border-radius: 50%; animation: loader-spin 1.2s linear infinite; }
+    .loader-mark img { display: block; width: 104px; height: 104px; object-fit: contain; border-radius: 50%; }
+    .loader-panel h2 { color: #17283f; font: 800 19px/1.3 'Manrope', sans-serif; margin: 0; }
+    .loader-panel p { color: #75869a; font-size: 12px; margin: 7px 0 18px; }
+    .loader-progress { height: 4px; overflow: hidden; border-radius: 9px; background: #f4e6db; }
+    .loader-progress span { display: block; width: 38%; height: 100%; border-radius: 9px; background: linear-gradient(90deg, var(--orange), #ffb56f); animation: loader-progress 1.35s ease-in-out infinite; }
+    @keyframes loader-spin { to { transform: rotate(360deg); } }
+    @keyframes loader-progress { 0% { transform: translateX(-110%); } 50% { transform: translateX(130%); } 100% { transform: translateX(290%); } }
+    @media (prefers-reduced-motion: reduce) { .loader-mark:before, .loader-progress span { animation: none; } .page-loader { transition: none; } }
+    .sidebar { width: 288px; min-width: 288px; min-height: 100vh; background: var(--navy); color: #d9e4f2; display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; z-index: 20; box-shadow: 12px 0 36px rgba(12,24,43,.04); }
+    .sidebar:after { content: ''; position: absolute; top: 0; right: 0; width: 1px; height: 100%; background: rgba(255,255,255,.08); }
+    .brand-area { height: 82px; display: flex; align-items: center; justify-content: center; padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,.08); }
+    .brand-logo-wrap { width: 215px; height: 57px; display: grid; place-items: center; background: white; border-radius: 9px; padding: 4px 7px; }
+    .brand-logo { width: 100%; height: 100%; object-fit: contain; }
+    .sidebar-copy { padding: 35px 26px 30px; }
+    .eyebrow { color: var(--orange); font: 800 10px 'Manrope', sans-serif; letter-spacing: .16em; text-transform: uppercase; }
+    .sidebar-copy h1 { color: white; font: 800 24px/1.3 'Manrope', sans-serif; letter-spacing: -.04em; margin: 12px 0; }
+    .sidebar-copy h1 span { color: #f5a36c; }
+    .sidebar-copy p { color: #91a1b8; font-size: 12px; line-height: 1.65; margin: 0; }
+    .sidebar-nav { padding: 0 15px; }
+    .sidebar-nav-label { color: #8193ab; font-size: 10px; font-weight: 800; letter-spacing: .15em; padding: 0 12px 12px; }
+    .nav-link { display: flex; align-items: center; gap: 11px; padding: 12px; border-radius: 8px; color: #aabbd0; text-decoration: none; font-size: 12px; margin-bottom: 5px; }
+    .nav-link:hover, .nav-link.active { color: white; background: #302b37; }
+    .nav-link.active { box-shadow: inset 3px 0 var(--orange); }
+    .nav-link.active svg { color: var(--orange); }
+    .sidebar-bottom { margin-top: auto; padding: 22px 26px 25px; border-top: 1px solid rgba(255,255,255,.08); color: #8193ab; font-size: 10px; line-height: 1.6; }
+    .sidebar-bottom strong { color: #f5a36c; font-size: 16px; display: block; margin-bottom: 5px; }
+    .main-area { min-width: 0; flex: 1; }
+    .topbar { height: 67px; display: flex; align-items: center; justify-content: space-between; padding: 0 36px; background: white; border-bottom: 1px solid var(--line); }
+    .topbar-left, .topbar-right { display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+    .topbar-left { color: #8290a2; }
+    .topbar-current { color: #263951; }
+    .topbar-right { color: #8491a1; font-size: 9px; letter-spacing: .14em; }
+    .topbar-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
+    .topbar-line { height: 1px; width: 24px; background: #d8e0e8; }
+    .schedule-report-header { position: relative; min-height: 112px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 18px 36px; background: #fff; border-bottom: 1px solid var(--line); }
+    .schedule-report-heading { min-width: 0; }
+    .schedule-status { display: inline-flex; align-items: center; gap: 7px; color: #167b69; background: #e8f6f2; border-radius: 20px; padding: 5px 9px; font-size: 9px; font-weight: 800; letter-spacing: .1em; }
+    .schedule-status span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .schedule-report-title { display: flex; align-items: baseline; gap: 10px; margin-top: 8px; }
+    .schedule-report-title h1 { color: #17283f; font: 800 21px 'Manrope', sans-serif; letter-spacing: -.04em; margin: 0; }
+    .schedule-report-title small { color: #91a0b1; font-size: 10px; font-weight: 700; }
+    .schedule-report-description { color: #75869b; font-size: 11px; margin: 5px 0 0; }
+    .schedule-report-brand { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 150px; height: 61px; display: grid; place-items: center; pointer-events: none; }
+    .schedule-report-brand img { display: block; width: 100%; height: 100%; object-fit: contain; }
+    .schedule-report-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+    .schedule-action { display: inline-flex; align-items: center; gap: 7px; min-height: 36px; padding: 0 12px; border: 1px solid #dce5ec; border-radius: 7px; background: #fff; color: #596c82; text-decoration: none; font-size: 10px; font-weight: 700; white-space: nowrap; }
+    .schedule-action:hover { color: #b45b27; border-color: #f2c7a8; background: #fff8f3; }
+    .page-content { max-width: 1580px; margin: 0 auto; padding: 31px 36px 22px; }
+    .page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 25px; margin-bottom: 27px; }
+    .page-heading h2 { color: #17283f; font: 800 clamp(26px, 3vw, 38px)/1.15 'Manrope', sans-serif; letter-spacing: -.05em; margin: 8px 0 8px; }
+    .page-heading p { color: var(--muted); font-size: 14px; margin: 0; }
+    .last-updated { color: #8290a2; font-size: 11px; text-align: right; line-height: 1.6; }
+    .last-updated strong { color: #34485f; display: block; font-size: 12px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 13px; margin-bottom: 24px; }
+    .kpi-card, .panel { background: white; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 2px 8px rgba(21, 44, 72, .035); }
+    .kpi-card { min-height: 112px; padding: 18px; display: flex; align-items: center; gap: 13px; }
+    .kpi-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 9px; color: var(--orange); background: var(--orange-soft); flex: none; }
+    .kpi-card small { display: block; color: #7f8ea1; font-size: 11px; line-height: 1.3; }
+    .kpi-card strong { display: block; color: #1e3049; font: 800 27px 'Manrope', sans-serif; letter-spacing: -.04em; margin-bottom: 3px; }
+    .progress-panel { padding: 23px 25px 24px; margin-bottom: 24px; }
+    .section-head { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-bottom: 16px; }
+    .section-head h3 { color: #1e3049; font: 800 15px 'Manrope', sans-serif; letter-spacing: -.02em; margin: 0; }
+    .section-head p { color: #8996a6; font-size: 11px; margin: 5px 0 0; }
+    .progress-percent { color: var(--orange); font: 800 24px 'Manrope', sans-serif; }
+    .big-progress { height: 12px; overflow: hidden; border-radius: 20px; background: #edf1f4; }
+    .big-progress span { display: block; height: 100%; background: linear-gradient(90deg, #f47d25, #ffb36c); border-radius: inherit; transition: width .3s ease; }
+    .dashboard-grid { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, .96fr); gap: 24px; margin-bottom: 24px; }
+    .chart-panel, .weekly-panel, .gantt-panel { padding: 23px 25px; }
+    .chart-wrap { height: 350px; position: relative; }
+    .weekly-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-height: 397px; overflow: auto; padding-right: 3px; }
+    .week-card { border: 1px solid #e5ebf0; border-radius: 8px; padding: 13px; background: #fbfcfd; }
+    .week-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+    .week-heading .eyebrow { font-size: 9px; }
+    .week-heading h3 { color: #30435b; font-size: 11px; font-weight: 700; margin: 5px 0 0; }
+    .week-heading strong { color: #e17b36; font: 800 14px 'Manrope', sans-serif; }
+    .week-bar { height: 4px; background: #e9eef2; border-radius: 4px; margin: 11px 0 8px; overflow: hidden; }
+    .week-bar span { display: block; height: 100%; background: var(--orange); border-radius: inherit; }
+    .week-contract { display: flex; align-items: center; width: 100%; gap: 8px; border: 0; background: transparent; padding: 6px 0; text-align: left; color: #31445c; }
+    .week-contract:hover strong { color: var(--orange); }
+    .week-contract-number { display: grid; place-items: center; width: 22px; height: 22px; background: #fff1e7; border-radius: 5px; color: var(--orange); font-size: 9px; font-weight: 800; flex: none; }
+    .week-contract span:nth-child(2) { min-width: 0; flex: 1; }
+    .week-contract strong, .week-contract small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .week-contract strong { font-size: 11px; font-weight: 700; }
+    .week-contract small { color: #8997a7; font-size: 9px; margin-top: 2px; }
+    .week-contract i { color: #a1adba; }
+    .week-footer { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #e8edf1; margin-top: 7px; padding-top: 9px; color: #8997a7; font-size: 9px; }
+    .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 5px 8px; border-radius: 20px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    .status-completado { color: #167b69; background: #e8f6f2; }.status-en-proceso, .status-en-desarrollo { color: #bd5e1d; background: #fff0e5; }.status-pendiente { color: #738197; background: #eef2f5; }.status-bloqueado { color: #bb4d57; background: #fdebed; }
+    .filters { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 15px; }
+    .filter-tabs { display: flex; gap: 5px; flex-wrap: wrap; }
+    .filter-tab, .select-control { border: 1px solid #dde5eb; background: #fff; color: #6c7c8f; border-radius: 6px; font-size: 11px; }
+    .filter-tab { padding: 8px 11px; }.filter-tab:hover, .filter-tab.active { color: #a85220; border-color: #f0c6a5; background: #fff6ef; }
+    .filter-control { display: flex; align-items: center; gap: 8px; }
+    .search-control { width: 210px; height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 9px; background: white; border: 1px solid #dde5eb; border-radius: 6px; color: #9aa7b5; }
+    .search-control input { width: 100%; border: 0; outline: 0; color: #33465e; font-size: 11px; background: transparent; }
+    .select-control { height: 34px; padding: 0 9px; outline: 0; }.select-control:focus, .search-control:focus-within { border-color: var(--orange); }
+    .table-panel { padding: 23px 25px 7px; margin-bottom: 24px; }
+    .table-count { color: #8b98a8; font-size: 11px; }
+    .table-scroll { overflow-x: auto; }
+    .contracts-table { width: 100%; min-width: 1080px; border-collapse: collapse; text-align: left; }
+    .contracts-table th { color: #8a97a6; font-size: 9px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; padding: 13px 10px; border-bottom: 1px solid #e4eaf0; white-space: nowrap; }
+    .contracts-table td { color: #53657a; font-size: 11px; padding: 13px 10px; border-bottom: 1px solid #edf1f4; vertical-align: middle; }
+    .contracts-table tbody tr:hover { background: #fbfcfd; }.contracts-table strong, .contracts-table small { display: block; }.contracts-table strong { color: #2c4058; font-size: 11px; }.contracts-table small { color: #8a98a8; font-size: 9px; margin-top: 4px; }.week-tag { color: #b75b25; background: #fff1e7; font-weight: 800; padding: 5px 7px; border-radius: 5px; font-size: 10px; }.contract-date { white-space: nowrap; }.contract-status { margin-top: 4px; }.contract-status.alerta { color: #c35c23; }.contract-status.vigente { color: #7e8c9d; }.contract-status.finalizado { color: #ad4d55; }.table-progress { display: flex; align-items: center; gap: 7px; min-width: 82px; }.table-progress > div { width: 50px; height: 5px; overflow: hidden; border-radius: 5px; background: #e9eef2; }.table-progress > div span { display: block; height: 100%; border-radius: inherit; background: var(--orange); }.table-progress strong { color: #3d5169; font-size: 10px; }.detail-button { display: inline-flex; align-items: center; gap: 5px; border: 0; background: transparent; color: #a85a2a; font-size: 10px; font-weight: 700; padding: 5px 0; }.detail-button:hover { color: var(--orange); }.detail-button svg { width: 15px; height: 15px; }.empty-table { text-align: center !important; padding: 30px !important; color: #8795a5 !important; }
+    .gantt-panel { margin-bottom: 24px; overflow: hidden; }.gantt-scroll { overflow-x: auto; }.gantt-grid { min-width: 760px; }.gantt-head, .gantt-row { display: grid; grid-template-columns: 220px repeat(8, minmax(58px, 1fr)); }.gantt-head { color: #8c99a8; font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; border-bottom: 1px solid #e4eaf0; }.gantt-head span { padding: 9px 8px; text-align: center; }.gantt-head span:first-child { text-align: left; }.gantt-row { min-height: 34px; border-bottom: 1px solid #f0f3f5; }.gantt-row > strong { color: #40536a; font-size: 10px; font-weight: 600; padding: 9px 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }.gantt-cell { position: relative; margin: 8px 4px; border-radius: 4px; background: #f4f6f8; }.gantt-cell.active { background: #f7aa70; box-shadow: inset 0 0 0 1px #ed9553; }.gantt-cell.active:after { content: ''; position: absolute; inset: 3px 7px; border-radius: 3px; background: #fff0e5; opacity: .65; }
+    .site-footer { display: flex; justify-content: space-between; gap: 15px; color: #8492a2; font-size: 10px; padding: 0 2px 5px; }.site-footer span:last-child { color: #aab4c0; }
+    .modal-backdrop { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(7, 20, 38, .6); opacity: 0; visibility: hidden; transition: opacity .2s, visibility .2s; }.modal-backdrop.open { opacity: 1; visibility: visible; }.detail-modal { width: min(620px, 100%); max-height: min(780px, 94vh); overflow: auto; background: white; border-radius: 12px; box-shadow: 0 22px 80px rgba(0,0,0,.25); transform: translateY(12px); transition: transform .2s; }.modal-backdrop.open .detail-modal { transform: translateY(0); }.modal-header { display: flex; justify-content: space-between; gap: 15px; padding: 23px 25px 18px; border-bottom: 1px solid #e8edf1; }.modal-header h2 { color: #1d3048; font: 800 23px 'Manrope', sans-serif; letter-spacing: -.04em; margin: 6px 0 4px; }.modal-header p { color: #8491a1; font-size: 11px; margin: 0; }.close-button { width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 6px; color: #76869a; background: #f1f4f6; }.close-button:hover { color: #c05b23; background: #fff1e7; }.modal-summary { padding: 18px 25px; display: grid; grid-template-columns: 1fr auto; gap: 8px 20px; background: #fbfcfd; }.summary-label { color: #8996a6; display: block; font-size: 10px; margin-bottom: 4px; }.summary-value { color: #334760; font-size: 11px; font-weight: 700; }.summary-progress { text-align: right; }.summary-progress strong { color: var(--orange); font: 800 25px 'Manrope', sans-serif; }.detail-progress { grid-column: 1 / -1; height: 7px; border-radius: 8px; overflow: hidden; background: #e5eaee; }.detail-progress span { display: block; height: 100%; border-radius: inherit; background: var(--orange); transition: width .25s; }.phases { padding: 18px 25px 25px; }.phases-title { color: #344960; font: 800 12px 'Manrope', sans-serif; margin: 0 0 10px; }.phase-row { display: grid; grid-template-columns: 28px 1fr 116px; align-items: center; gap: 10px; min-height: 43px; border-bottom: 1px solid #edf1f4; }.phase-number { color: #a5b0bb; font-size: 10px; font-weight: 700; }.phase-name { color: #4d6076; font-size: 11px; }.phase-select { width: 116px; border: 1px solid #e1e7ec; border-radius: 5px; color: #68788b; background: white; font-size: 10px; padding: 5px 6px; outline: 0; }.phase-select.phase-completado { color: #167b69; background: #f1fbf8; }.phase-select.phase-en-proceso { color: #bd5e1d; background: #fff7f1; }.phase-select.phase-bloqueado { color: #bb4d57; background: #fff5f6; }
+    @media (max-width: 1180px) { .sidebar { width: 250px; min-width: 250px; }.page-content { padding: 27px 24px 20px; }.topbar { padding: 0 24px; }.dashboard-grid { grid-template-columns: 1fr; }.weekly-list { max-height: none; } }
+    @media (max-width: 780px) { .sidebar { position: fixed; left: 0; transform: translateX(-100%); transition: transform .25s; width: min(310px, 88vw); min-width: 0; }.sidebar.open { transform: translateX(0); }.mobile-menu { display: grid !important; }.mobile-backdrop:not([hidden]) { display: block !important; }.mobile-backdrop[hidden] { display: none !important; }.topbar { height: 60px; padding: 0 16px; }.topbar-right { display: none; }.page-content { padding: 22px 15px 15px; }.page-heading { align-items: flex-start; flex-direction: column; gap: 8px; }.last-updated { text-align: left; }.kpi-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }.kpi-card { min-height: 92px; padding: 12px; display: block; }.kpi-icon { display: none; }.kpi-card strong { font-size: 22px; }.kpi-card small { font-size: 10px; }.kpi-card:last-child { grid-column: span 3; min-height: 72px; display: flex; align-items: center; gap: 14px; }.kpi-card:last-child strong { font-size: 25px; }.weekly-list { grid-template-columns: 1fr; }.site-footer { display: block; line-height: 1.7; }.site-footer span:last-child { display: none; }.mobile-menu { display: none; border: 0; background: transparent; color: #63758b; padding: 5px; }.topbar-current { display: none; }.breadcrumb-divider { display: none; } }
+    @media (max-width: 480px) { .page-heading h2 { font-size: 27px; }.kpi-grid { gap: 7px; }.kpi-card { padding: 10px; }.kpi-card strong { font-size: 19px; }.kpi-card small { line-height: 1.25; }.progress-panel, .chart-panel, .weekly-panel, .table-panel, .gantt-panel { padding-left: 15px; padding-right: 15px; }.section-head { align-items: flex-start; }.filter-control { width: 100%; }.search-control { flex: 1; width: auto; }.select-control { flex: 1; }.modal-header, .modal-summary, .phases { padding-left: 17px; padding-right: 17px; }.phase-row { grid-template-columns: 23px 1fr; gap: 7px; padding: 6px 0; }.phase-select { grid-column: 2; width: 100%; }.modal-header h2 { font-size: 19px; } }
+  </style>
+</head>
+<body>
+  <div id="page-loader" class="page-loader" role="status" aria-live="polite" aria-label="Cargando cronograma">
+    <div class="loader-panel"><span class="loader-kicker">GAGR · CRONOGRAMA</span><div class="loader-mark"><img src="./assets/logo-aguas-bogota-emblema.png" width="104" height="104" alt="Aguas de Bogotá" /></div><h2>Preparando cronograma</h2><p>Cargando seguimiento de tableros</p><div class="loader-progress" aria-hidden="true"><span></span></div></div>
+  </div>
+  <div class="app-shell">
+    <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
+      <div class="sidebar-copy"><span class="eyebrow">GAGR · Gestión</span><h1>Cronograma de<br /><span>tableros</span></h1><p>Seguimiento ejecutivo del desarrollo de analítica de datos para los contratos vigentes.</p></div>
+      <nav class="sidebar-nav"><div class="sidebar-nav-label">MÓDULOS</div><a class="nav-link" href="./index.html"><i data-lucide="layout-dashboard"></i><span>Tableros de Analsis Gerencial</span></a><a class="nav-link active" href="./cronograma-tableros.html" aria-current="page"><i data-lucide="calendar-range"></i><span>Cronograma de tableros</span></a></nav>
+      <div class="sidebar-bottom"><strong>15 contratos</strong><span>Plan de trabajo · 8 semanas<br />Última revisión del plan: 18 sep 2026</span></div>
+    </aside>
+    <div id="mobile-backdrop" class="mobile-backdrop" hidden></div>
+    <main class="main-area">
+      <section class="schedule-report-header" aria-labelledby="schedule-report-title">
+        <div class="schedule-report-heading"><span class="schedule-status"><span></span> PLAN ACTIVO</span><div class="schedule-report-title"><h1 id="schedule-report-title">Cronograma de Desarrollo de Tableros</h1><small>01 / PLAN</small></div><p class="schedule-report-description">Seguimiento de proyectos de Analítica de Datos</p></div>
+        <div class="schedule-report-brand"><img src="./assets/logo-aguas-bogota-horizontal.png" width="242" height="98" alt="Aguas de Bogotá S.A. E.S.P." /></div>
+        <div class="schedule-report-actions"><button id="export-pdf" class="schedule-action" type="button" title="Descargar plan de trabajo en PDF"><i data-lucide="file-down"></i><span>Exportar PDF</span></button><a class="schedule-action" href="./index.html" title="Volver al centro de control"><i data-lucide="arrow-left"></i><span>Volver a informes</span></a></div>
+      </section>
+      <div class="page-content">
+        <section class="page-heading"><div><span class="eyebrow"></span><h2></h2><p>Control semanal del desarrollo de tableros</p></div><div class="last-updated">Última actualización<strong id="last-updated"></strong></div></section>
+        <section class="kpi-grid" aria-label="Indicadores del plan"><article class="kpi-card"><div class="kpi-icon"><i data-lucide="briefcase-business"></i></div><div><strong id="kpi-total">0</strong><small>Total contratos</small></div></article><article class="kpi-card"><div class="kpi-icon"><i data-lucide="circle-check-big"></i></div><div><strong id="kpi-completed">0</strong><small>Tableros completados</small></div></article><article class="kpi-card"><div class="kpi-icon"><i data-lucide="loader-circle"></i></div><div><strong id="kpi-progress">0</strong><small>En desarrollo</small></div></article><article class="kpi-card"><div class="kpi-icon"><i data-lucide="clock-3"></i></div><div><strong id="kpi-pending">0</strong><small>Pendientes</small></div></article><article class="kpi-card"><div class="kpi-icon"><i data-lucide="trending-up"></i></div><div><strong id="kpi-overall">0%</strong><small>Avance general</small></div></article></section>
+        <section class="panel progress-panel" aria-labelledby="overall-title"><div class="section-head"><div><h3 id="overall-title">Avance General del Plan de Tableros</h3><p>Promedio de las fases completadas en todos los contratos</p></div><strong id="overall-progress-label" class="progress-percent">0%</strong></div><div class="big-progress" aria-label="Avance general"><span id="overall-progress" style="width:0%"></span></div></section>
+        <section class="dashboard-grid"><article class="panel chart-panel"><div class="section-head"><div><h3>Avance por proyecto</h3><p>Porcentaje de fases completadas</p></div><i data-lucide="bar-chart-3"></i></div><div class="chart-wrap"><canvas id="progress-chart" aria-label="Gráfico de avance por proyecto"></canvas></div></article><article class="panel weekly-panel"><div class="section-head"><div><h3>Plan de trabajo semanal</h3><p>Dos contratos aproximadamente por semana</p></div><i data-lucide="calendar-days"></i></div><div id="weekly-plan" class="weekly-list"></div></article></section>
+        <section class="panel table-panel" aria-labelledby="tracking-title"><div class="section-head"><div><h3 id="tracking-title">Tabla de seguimiento</h3><p>Estado del tablero y situación contractual</p></div><span id="table-count" class="table-count"></span></div><div class="filters"><div class="filter-tabs" role="tablist" aria-label="Filtrar por estado"><button class="filter-tab active" type="button" data-filter="Todos">Todos</button><button class="filter-tab" type="button" data-filter="Completado">Completados</button><button class="filter-tab" type="button" data-filter="En desarrollo">En desarrollo</button><button class="filter-tab" type="button" data-filter="Pendiente">Pendientes</button><button class="filter-tab" type="button" data-filter="Bloqueado">Bloqueados</button></div><div class="filter-control"><label class="search-control"><i data-lucide="search"></i><input id="contract-search" type="search" placeholder="Buscar contrato o proyecto..." /></label><select id="sort-by" class="select-control" aria-label="Ordenar contratos"><option value="semana">Ordenar: semana</option><option value="terminacion">Ordenar: terminación</option><option value="avance">Ordenar: avance</option><option value="prioridad">Ordenar: prioridad</option></select></div></div><div class="table-scroll"><table class="contracts-table"><thead><tr><th>Contrato</th><th>Proyecto / responsable</th><th>Semana</th><th>Inicio planeado</th><th>Fin planeado</th><th>Terminación contrato</th><th>Estado tablero</th><th>Avance</th><th>Acciones</th></tr></thead><tbody id="contracts-table-body"></tbody></table></div></section>
+        <section class="panel gantt-panel" aria-labelledby="gantt-title"><div class="section-head"><div><h3 id="gantt-title">Vista de planificación</h3><p>Distribución semanal de los proyectos del plan</p></div><i data-lucide="gantt-chart"></i></div><div class="gantt-scroll"><div class="gantt-grid"><div id="gantt-head" class="gantt-head"></div><div id="gantt-body"></div></div></div></section>
+        <footer class="site-footer"><span>© <span id="year"></span> GAGR · Centro de control contractual</span><span>Una vista ejecutiva para cada contrato.</span></footer>
+      </div>
+    </main>
+  </div>
+  <div id="detail-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="detail-project" aria-hidden="true"><div class="detail-modal"><header class="modal-header"><div><span id="detail-contract-id" class="eyebrow"></span><h2 id="detail-project"></h2><p id="detail-responsible"></p></div><button id="close-detail" class="close-button" type="button" aria-label="Cerrar detalle"><i data-lucide="x"></i></button></header><div class="modal-summary"><div><span class="summary-label">Estado del tablero</span><span id="detail-status"></span></div><div class="summary-progress"><span class="summary-label">Avance</span><strong id="detail-progress">0%</strong></div><div class="detail-progress"><span id="detail-progress-bar" style="width:0%"></span></div></div><div class="phases"><h3 class="phases-title">Fases del desarrollo</h3><div id="detail-phases"></div></div></div></div>
+  <script src="./js/cronograma.js"></script>
+  <script>
+    const sidebar = document.querySelector('#sidebar'); const backdrop = document.querySelector('#mobile-backdrop'); const openSidebar = document.querySelector('#open-sidebar'); openSidebar?.addEventListener('click', () => { sidebar.classList.add('open'); backdrop.hidden = false; }); backdrop.addEventListener('click', () => { sidebar.classList.remove('open'); backdrop.hidden = true; });
+  </script>
+</body>
+</html>

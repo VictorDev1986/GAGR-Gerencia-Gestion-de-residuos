@@ -46,6 +46,19 @@
 
   const icon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>`;
 
+  function normalizeReportActions() {
+    $('#copy-link')?.remove();
+    if ($('.schedule-button')) return;
+    const actions = $('.report-actions');
+    if (!actions) return;
+    const scheduleButton = document.createElement('a');
+    scheduleButton.className = 'action-button schedule-button';
+    scheduleButton.href = './cronograma-tableros.html';
+    scheduleButton.title = 'Abrir cronograma de tableros';
+    scheduleButton.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18M8 14h3M8 17h5"/></svg><span>Cronograma</span>';
+    actions.prepend(scheduleButton);
+  }
+
   function reportNumber(report) {
     return String(reports.indexOf(report) + 1).padStart(2, '0');
   }
@@ -105,10 +118,8 @@
     $('#viewer-label').textContent = available ? 'TABLERO INTERACTIVO' : 'TABLERO PENDIENTE';
 
     const openButton = $('#open-report');
-    const copyButton = $('#copy-link');
     const fullscreenButton = $('#fullscreen-button');
     openButton.hidden = !available;
-    copyButton.hidden = !available;
     fullscreenButton.hidden = !available;
     if (available) openButton.href = report.url;
 
@@ -157,16 +168,7 @@
   });
   $('#close-sidebar').addEventListener('click', closeSidebar);
   $('#mobile-backdrop').addEventListener('click', closeSidebar);
-  $('#copy-link').addEventListener('click', async () => {
-    const report = reports.find(item => item.id === activeId);
-    if (!report?.url) return;
-    try {
-      await navigator.clipboard.writeText(report.url);
-      showToast('Enlace del tablero copiado');
-    } catch {
-      showToast('Abre el tablero aparte para copiar su enlace');
-    }
-  });
+  normalizeReportActions();
   $('#fullscreen-button').addEventListener('click', async () => {
     try {
       await viewer.requestFullscreen();
