@@ -11,7 +11,7 @@ function contrato(numero, nombre, url = '', descripcion = 'Tablero de análisis 
 
 window.REPORTS = [
   contrato(1, 'Contrato CL 457-2025 UAESP', 'https://app.powerbi.com/view?r=eyJrIjoiZGRiN2M4NWUtNDYyYi00ZDI3LWE4NzctNTBmNGFiYzcwZWQ2IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Recolección y gestión de residuos especiales; recuperación del espacio público.'),
-  contrato(2, 'Contrato 469-2024', 'https://app.powerbi.com/reportEmbed?reportId=3ac75718-c08c-43b3-8d2f-4bf7bcfa8b2b&autoAuth=true&ctid=c36f5389-922c-4c1e-b426-50bbf6a19cff', 'Limpieza y mantenimiento de predios de la Empresa de Renovación y Desarrollo Urbano de Bogotá.'),
+  contrato(2, 'Contrato IDRD-3799-2025', 'https://app.powerbi.com/view?r=eyJrIjoiNDVkZjJhNmItMjhiOS00ZTI3LWJmYmQtMzEyYjIzYzU2NDQ2IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Limpieza y mantenimiento de predios de la Empresa de Renovación y Desarrollo Urbano de Bogotá.'),
   contrato(3, 'Contrato 1668-2024', '', 'Apoyo al mantenimiento de la red troncal de alcantarillado y recuperación del espacio público.'),
   contrato(4, 'Contrato 2949-2024', '', 'Gerencia integral de obras de alcantarillado sanitario y pluvial.'),
   contrato(5, 'Contrato 185-2025', '', 'Transporte y disposición final de residuos.'),
