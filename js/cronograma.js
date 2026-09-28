@@ -17,6 +17,10 @@
   ];
 
   const STORAGE_KEY = 'gagr-cronograma-tableros-v5';
+  const EDIT_KEY_STORAGE = 'gagr-cronograma-edit-key';
+  const CONFIG = window.CRONOGRAMA_CONFIG || {};
+  const API_URL = String(CONFIG.apiUrl || '').trim();
+  const REFRESH_MS = Math.max(Number(CONFIG.refreshMs) || 60000, 15000);
   const PLAN_START = new Date('2026-09-21T00:00:00');
   const ESTADOS_TABLERO = ['Pendiente', 'En proceso', 'Completado', 'Bloqueado'];
   const contratosIniciales = [
@@ -44,6 +48,8 @@
   let chart;
   let contratoDetalleId = null;
   let filtroEstado = 'Todos';
+  let editKey = sessionStorage.getItem(EDIT_KEY_STORAGE) || '';
+  let hayCambiosPendientes = false;
 
   function cargarContratos() {
     try {
@@ -57,6 +63,112 @@
 
   function guardarContratos() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(contratos));
+  }
+
+  function puedeEditar() {
+    return !API_URL || Boolean(editKey);
+  }
+
+  function normalizarContratos(datos) {
+    if (!Array.isArray(datos)) return [];
+    return datos.filter((contrato) => contrato && contrato.id).map((contrato) => ({
+      ...contrato,
+      semana: Number(contrato.semana) || 0,
+      fases: FASES.map((nombre, index) => ({
+        nombre,
+        estado: ESTADOS_TABLERO.includes(contrato.fases?.[index]?.estado) ? contrato.fases[index].estado : 'Pendiente',
+      })),
+    }));
+  }
+
+  function actualizarEstadoSincronizacion(texto, tono = '') {
+    const indicador = $('#sync-status');
+    if (!indicador) return;
+    indicador.textContent = texto;
+    indicador.dataset.tone = tono;
+  }
+
+  function actualizarUltimaActualizacion(fecha) {
+    const valor = fecha ? new Date(fecha) : new Date();
+    const valida = !Number.isNaN(valor.getTime()) ? valor : new Date();
+    $('#last-updated').textContent = new Intl.DateTimeFormat('es-CO', {
+      day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit',
+    }).format(valida);
+  }
+
+  async function solicitarAPI(payload) {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload),
+      redirect: 'follow',
+    });
+    if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+    const resultado = await response.json();
+    if (!resultado.ok) throw new Error(resultado.error || 'La operacion no pudo completarse.');
+    return resultado;
+  }
+
+  async function cargarContratosRemotos({ silencioso = false } = {}) {
+    if (!API_URL || hayCambiosPendientes) return;
+    if (!silencioso) actualizarEstadoSincronizacion('Consultando Google Sheets…');
+    try {
+      const response = await fetch(`${API_URL}?t=${Date.now()}`, { cache: 'no-store', redirect: 'follow' });
+      if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
+      const resultado = await response.json();
+      if (!resultado.ok) throw new Error(resultado.error || 'No fue posible leer Google Sheets.');
+      const remotos = normalizarContratos(resultado.data);
+      if (remotos.length) {
+        contratos = remotos;
+        guardarContratos();
+        renderTodo();
+      }
+      actualizarUltimaActualizacion(resultado.updatedAt);
+      actualizarEstadoSincronizacion(remotos.length ? 'Sincronizado con Google Sheets' : 'Google Sheets conectado · sin datos');
+    } catch (error) {
+      console.warn('No fue posible sincronizar el cronograma.', error);
+      actualizarEstadoSincronizacion('Sin conexión · mostrando respaldo local', 'error');
+    }
+  }
+
+  async function guardarContratosRemotos() {
+    if (!API_URL) return;
+    if (!editKey) throw new Error('Debes habilitar la edicion antes de guardar.');
+    actualizarEstadoSincronizacion('Guardando en Google Sheets…');
+    const resultado = await solicitarAPI({ action: 'save', key: editKey, contratos });
+    hayCambiosPendientes = false;
+    actualizarUltimaActualizacion(resultado.updatedAt);
+    actualizarEstadoSincronizacion('Cambios guardados en Google Sheets');
+  }
+
+  async function habilitarEdicion() {
+    if (!API_URL) return;
+    const clave = window.prompt('Ingresa la clave privada de edición:');
+    if (!clave) return;
+    actualizarEstadoSincronizacion('Validando clave…');
+    try {
+      await solicitarAPI({ action: 'auth', key: clave.trim() });
+      editKey = clave.trim();
+      sessionStorage.setItem(EDIT_KEY_STORAGE, editKey);
+      actualizarModoEdicion();
+      actualizarEstadoSincronizacion('Edición habilitada · Google Sheets conectado');
+      if (contratoDetalleId) renderDetalleContrato();
+    } catch (error) {
+      editKey = '';
+      sessionStorage.removeItem(EDIT_KEY_STORAGE);
+      actualizarEstadoSincronizacion('Clave incorrecta · modo consulta', 'error');
+      window.alert(error.message);
+    }
+  }
+
+  function actualizarModoEdicion() {
+    const boton = $('#enable-edit');
+    if (!boton) return;
+    if (!API_URL) {
+      boton.hidden = true;
+      return;
+    }
+    boton.hidden = Boolean(editKey);
   }
 
   function calcularProgreso(contrato) {
@@ -160,6 +272,14 @@
     $('#gantt-body').innerHTML = contratos.map((contrato) => `<div class="gantt-row"><strong title="${escapeHTML(contrato.proyecto)}">${escapeHTML(contrato.proyecto)}</strong>${Array.from({ length: maxWeek }, (_, index) => `<span class="gantt-cell ${index + 1 === contrato.semana ? 'active' : ''}" title="Semana ${index + 1}"></span>`).join('')}</div>`).join('');
   }
 
+  function renderTodo() {
+    renderKPIs();
+    renderCronograma();
+    renderTable();
+    renderChart();
+    renderGantt();
+  }
+
   function renderDetalleContrato() {
     const contrato = contratos.find((item) => item.id === contratoDetalleId);
     if (!contrato) return;
@@ -170,7 +290,7 @@
     $('#detail-progress').textContent = `${progreso}%`;
     $('#detail-progress-bar').style.width = `${progreso}%`;
     $('#detail-status').innerHTML = statusBadge(estadoCalculado(contrato));
-    $('#detail-phases').innerHTML = contrato.fases.map((fase, index) => `<div class="phase-row"><span class="phase-number">${String(index + 1).padStart(2, '0')}</span><span class="phase-name">${escapeHTML(fase.nombre)}</span><select class="phase-select phase-${fase.estado.toLowerCase().replace(' ', '-')}" data-phase="${index}" aria-label="Estado de ${escapeHTML(fase.nombre)}">${ESTADOS_TABLERO.map((estado) => `<option ${estado === fase.estado ? 'selected' : ''}>${estado}</option>`).join('')}</select></div>`).join('');
+    $('#detail-phases').innerHTML = contrato.fases.map((fase, index) => `<div class="phase-row"><span class="phase-number">${String(index + 1).padStart(2, '0')}</span><span class="phase-name">${escapeHTML(fase.nombre)}</span><select class="phase-select phase-${fase.estado.toLowerCase().replace(' ', '-')}" data-phase="${index}" aria-label="Estado de ${escapeHTML(fase.nombre)}" ${puedeEditar() ? '' : 'disabled'}>${ESTADOS_TABLERO.map((estado) => `<option ${estado === fase.estado ? 'selected' : ''}>${estado}</option>`).join('')}</select></div>`).join('');
     $('#detail-modal').classList.add('open');
     $('#detail-modal').setAttribute('aria-hidden', 'false');
     renderIcons();
@@ -235,18 +355,32 @@
     pdf.save('plan-trabajo-tableros-2026-09-21.pdf');
   }
 
-  function actualizarFase(index, estado) {
+  async function actualizarFase(index, estado) {
     const contrato = contratos.find((item) => item.id === contratoDetalleId);
     if (!contrato) return;
+    if (!puedeEditar()) {
+      window.alert('Habilita la edición con tu clave privada antes de cambiar una fase.');
+      return;
+    }
     contrato.fases[index].estado = estado;
     contrato.estado = estado === 'Bloqueado' ? 'Bloqueado' : estadoCalculado(contrato);
+    hayCambiosPendientes = Boolean(API_URL);
     guardarContratos();
-    renderKPIs();
-    renderCronograma();
-    renderTable();
-    renderChart();
-    renderGantt();
+    renderTodo();
     renderDetalleContrato();
+    try {
+      await guardarContratosRemotos();
+    } catch (error) {
+      console.error('El cambio quedo guardado solo en este navegador.', error);
+      if (/clave/i.test(error.message)) {
+        editKey = '';
+        sessionStorage.removeItem(EDIT_KEY_STORAGE);
+        actualizarModoEdicion();
+        renderDetalleContrato();
+      }
+      actualizarEstadoSincronizacion('Cambio pendiente · no se pudo sincronizar', 'error');
+      window.alert(`El cambio quedó guardado localmente, pero no llegó a Google Sheets. ${error.message}`);
+    }
   }
 
   function bindEvents() {
@@ -262,6 +396,7 @@
     document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeModal(); });
     $('#detail-phases').addEventListener('change', (event) => { if (event.target.matches('.phase-select')) actualizarFase(Number(event.target.dataset.phase), event.target.value); });
     $('#export-pdf').addEventListener('click', exportarPDF);
+    $('#enable-edit').addEventListener('click', habilitarEdicion);
   }
 
   function closeModal() {
@@ -271,21 +406,22 @@
   }
 
   function init() {
-    $('#last-updated').textContent = new Intl.DateTimeFormat('es-CO', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date());
+    actualizarUltimaActualizacion();
     $('#year').textContent = new Date().getFullYear();
-    renderKPIs();
-    renderCronograma();
-    renderTable();
-    renderChart();
-    renderGantt();
+    renderTodo();
     bindEvents();
+    actualizarModoEdicion();
+    actualizarEstadoSincronizacion(API_URL ? 'Conectando con Google Sheets…' : 'Almacenamiento local');
     renderIcons();
     requestAnimationFrame(hidePageLoader);
     setTimeout(hidePageLoader, 2500);
+    cargarContratosRemotos();
+    if (API_URL) setInterval(() => cargarContratosRemotos({ silencioso: true }), REFRESH_MS);
   }
 
   window.cargarContratos = cargarContratos;
   window.guardarContratos = guardarContratos;
+  window.cargarContratosRemotos = cargarContratosRemotos;
   window.calcularProgreso = calcularProgreso;
   window.actualizarFase = actualizarFase;
   window.renderKPIs = renderKPIs;

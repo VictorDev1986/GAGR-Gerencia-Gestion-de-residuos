@@ -24,6 +24,12 @@ contrato(2, 'Contrato 469-2024', 'https://app.powerbi.com/view?r=ENLACE_REAL', '
 
 Conserva el número del espacio. Si el enlace aún no está disponible, deja `''` en el tercer valor y el portal mostrará «Pendiente». Guarda el archivo y recarga la página.
 
+## Avance compartido del cronograma
+
+El cronograma puede usar Google Sheets como almacenamiento central para que todas las personas vean el mismo avance. La integración incluye lectura pública, edición protegida con clave, actualización automática y respaldo local cuando no hay conexión.
+
+La instalación está descrita en [`google-apps-script/README.md`](google-apps-script/README.md). Una vez publicada la aplicación web de Apps Script, solo debes pegar su URL `/exec` en `js/cronograma-config.js`.
+
 ## Estructura
 
 ```text
