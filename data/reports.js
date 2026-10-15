@@ -1,6 +1,6 @@
 // Para activar un contrato, cambia su nombre y pega el enlace de Power BI
 // entre las comillas del tercer valor. Deja '' si el tablero aún no existe.
-function contrato(numero, nombre, url = '', descripcion = 'Tablero de análisis de la Gerencia de Gestión de Residuos') {
+function contrato(numero, nombre, url = '', descripcion = 'Tablero de análisis de la Gerencia de Aguas y Gestión de Residuos') {
   return {
     id: `contrato-${String(numero).padStart(2, '0')}`,
     title: nombre,
@@ -12,7 +12,7 @@ function contrato(numero, nombre, url = '', descripcion = 'Tablero de análisis 
 window.REPORTS = [
   contrato(1, 'UAESP', 'https://app.powerbi.com/view?r=eyJrIjoiZGRiN2M4NWUtNDYyYi00ZDI3LWE4NzctNTBmNGFiYzcwZWQ2IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Recolección y gestión de residuos especiales; recuperación del espacio público.'),
   contrato(2, 'IDRD', 'https://app.powerbi.com/view?r=eyJrIjoiNDVkZjJhNmItMjhiOS00ZTI3LWJmYmQtMzEyYjIzYzU2NDQ2IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Limpieza y mantenimiento de predios de la Empresa de Renovación y Desarrollo Urbano de Bogotá.'),
-  contrato(3, 'PTAR Salitre', '', 'Estudios, diseños y construcción de redes locales del tanque El Vínculo en Soacha.'),
+  contrato(3, 'PTAR Salitre', 'https://app.powerbi.com/view?r=eyJrIjoiNGU3YTdkNTctODBmNi00ZmE3LTk1MTEtOThkMTliMWE3ZTA1IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Estudios, diseños y construcción de redes locales del tanque El Vínculo en Soacha.'),
   contrato(4, 'Desbuild Embajada', '', 'Transporte y disposición final de residuos.'),
   contrato(5, 'Alboreto', '', 'Gestión del servicio público domiciliario de agua potable de Aguas de Bogotá.'),
   contrato(6, 'Fondo de desarrollo Local de Suba', '', 'Restauración ecológica, renaturalización y mantenimiento del arbolado en Suba.'),

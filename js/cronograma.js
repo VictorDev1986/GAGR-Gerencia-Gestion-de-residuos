@@ -328,7 +328,7 @@
     pdf.text('Cronograma de Desarrollo de Tableros', 14, 12);
     pdf.setFont('helvetica', 'normal');
     pdf.setFontSize(9);
-    pdf.text('Seguimiento de proyectos de Analítica de Datos · GAGR', 14, 19);
+    pdf.text('Seguimiento de proyectos de Analítica de Datos · Gerencia de Aguas y Gestión de Residuos', 14, 19);
     pdf.text(`Generado: ${new Intl.DateTimeFormat('es-CO', { day: '2-digit', month: 'long', year: 'numeric' }).format(new Date())}`, 205, 16);
     pdf.setTextColor(35, 52, 76);
     pdf.setFont('helvetica', 'bold');
@@ -350,7 +350,7 @@
       headStyles: { fillColor: [11, 23, 43], textColor: [255, 255, 255], fontStyle: 'bold' },
       alternateRowStyles: { fillColor: [248, 250, 251] },
       columnStyles: { 0: { cellWidth: 25 }, 1: { cellWidth: 42 }, 2: { cellWidth: 48 }, 3: { cellWidth: 15 }, 4: { cellWidth: 22 }, 5: { cellWidth: 22 }, 6: { cellWidth: 27 }, 7: { cellWidth: 28 }, 8: { cellWidth: 18, halign: 'right' } },
-      didDrawPage: (data) => { pdf.setFontSize(8); pdf.setTextColor(120, 135, 150); pdf.text('GAGR · Plan de trabajo de tableros', 14, 202); pdf.text(`Página ${data.pageNumber}`, 270, 202); },
+      didDrawPage: (data) => { pdf.setFontSize(8); pdf.setTextColor(120, 135, 150); pdf.text('Gerencia de Aguas y Gestión de Residuos · Plan de trabajo de tableros', 14, 202); pdf.text(`Página ${data.pageNumber}`, 270, 202); },
     });
     pdf.save('plan-trabajo-tableros-2026-09-21.pdf');
   }

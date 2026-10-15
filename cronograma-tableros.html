@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0b172b" />
   <meta name="description" content="Cronograma ejecutivo de desarrollo de tableros de Aguas de Bogotá." />
-  <title>Cronograma de Desarrollo de Tableros · GAGR</title>
+  <title>Cronograma de Desarrollo de Tableros · Gerencia de Aguas y Gestión de Residuos</title>
   <link rel="icon" type="image/png" href="./assets/logo-aguas-bogota-emblema.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -148,11 +148,11 @@
 </head>
 <body>
   <div id="page-loader" class="page-loader" role="status" aria-live="polite" aria-label="Cargando cronograma">
-    <div class="loader-panel"><span class="loader-kicker">GAGR · CRONOGRAMA</span><div class="loader-mark"><img src="./assets/logo-aguas-bogota-emblema.png" width="104" height="104" alt="Aguas de Bogotá" /></div><h2>Preparando cronograma</h2><p>Cargando seguimiento de tableros</p><div class="loader-progress" aria-hidden="true"><span></span></div></div>
+    <div class="loader-panel"><span class="loader-kicker">GERENCIA DE AGUAS Y GESTIÓN DE RESIDUOS · CRONOGRAMA</span><div class="loader-mark"><img src="./assets/logo-aguas-bogota-emblema.png" width="104" height="104" alt="Aguas de Bogotá" /></div><h2>Preparando cronograma</h2><p>Cargando seguimiento de tableros</p><div class="loader-progress" aria-hidden="true"><span></span></div></div>
   </div>
   <div class="app-shell">
     <aside id="sidebar" class="sidebar" aria-label="Navegación principal">
-      <div class="sidebar-copy"><span class="eyebrow">GAGR · Gestión</span><h1>Cronograma de<br /><span>tableros</span></h1><p>Seguimiento ejecutivo del desarrollo de analítica de datos para los contratos vigentes.</p></div>
+      <div class="sidebar-copy"><span class="eyebrow">Gerencia de Aguas y Gestión de Residuos</span><h1>Cronograma de<br /><span>tableros</span></h1><p>Seguimiento ejecutivo del desarrollo de analítica de datos para los contratos vigentes.</p></div>
       <nav class="sidebar-nav"><div class="sidebar-nav-label">MÓDULOS</div><a class="nav-link" href="./index.html"><i data-lucide="layout-dashboard"></i><span>Tableros de Analsis Gerencial</span></a><a class="nav-link active" href="./cronograma-tableros.html" aria-current="page"><i data-lucide="calendar-range"></i><span>Cronograma de tableros</span></a></nav>
       <div class="sidebar-bottom"><strong>15 contratos</strong><span>Plan de trabajo · 8 semanas<br />Última revisión del plan: 18 sep 2026</span></div>
     </aside>
@@ -170,7 +170,7 @@
         <section class="dashboard-grid"><article class="panel chart-panel"><div class="section-head"><div><h3>Avance por proyecto</h3><p>Porcentaje de fases completadas</p></div><i data-lucide="bar-chart-3"></i></div><div class="chart-wrap"><canvas id="progress-chart" aria-label="Gráfico de avance por proyecto"></canvas></div></article><article class="panel weekly-panel"><div class="section-head"><div><h3>Plan de trabajo semanal</h3><p>Dos contratos aproximadamente por semana</p></div><i data-lucide="calendar-days"></i></div><div id="weekly-plan" class="weekly-list"></div></article></section>
         <section class="panel table-panel" aria-labelledby="tracking-title"><div class="section-head"><div><h3 id="tracking-title">Tabla de seguimiento</h3><p>Estado del tablero y situación contractual</p></div><span id="table-count" class="table-count"></span></div><div class="filters"><div class="filter-tabs" role="tablist" aria-label="Filtrar por estado"><button class="filter-tab active" type="button" data-filter="Todos">Todos</button><button class="filter-tab" type="button" data-filter="Completado">Completados</button><button class="filter-tab" type="button" data-filter="En desarrollo">En desarrollo</button><button class="filter-tab" type="button" data-filter="Pendiente">Pendientes</button><button class="filter-tab" type="button" data-filter="Bloqueado">Bloqueados</button></div><div class="filter-control"><label class="search-control"><i data-lucide="search"></i><input id="contract-search" type="search" placeholder="Buscar contrato o proyecto..." /></label><select id="sort-by" class="select-control" aria-label="Ordenar contratos"><option value="semana">Ordenar: semana</option><option value="terminacion">Ordenar: terminación</option><option value="avance">Ordenar: avance</option><option value="prioridad">Ordenar: prioridad</option></select></div></div><div class="table-scroll"><table class="contracts-table"><thead><tr><th>Contrato</th><th>Proyecto / responsable</th><th>Semana</th><th>Inicio planeado</th><th>Fin planeado</th><th>Terminación contrato</th><th>Estado tablero</th><th>Avance</th><th>Acciones</th></tr></thead><tbody id="contracts-table-body"></tbody></table></div></section>
         <section class="panel gantt-panel" aria-labelledby="gantt-title"><div class="section-head"><div><h3 id="gantt-title">Vista de planificación</h3><p>Distribución semanal de los proyectos del plan</p></div><i data-lucide="gantt-chart"></i></div><div class="gantt-scroll"><div class="gantt-grid"><div id="gantt-head" class="gantt-head"></div><div id="gantt-body"></div></div></div></section>
-        <footer class="site-footer"><span>© <span id="year"></span> GAGR · Centro de control contractual</span><span>Una vista ejecutiva para cada contrato.</span></footer>
+        <footer class="site-footer"><span>© <span id="year"></span> Gerencia de Aguas y Gestión de Residuos · Centro de control contractual</span><span>Una vista ejecutiva para cada contrato.</span></footer>
       </div>
     </main>
   </div>
