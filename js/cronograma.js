@@ -28,9 +28,9 @@
     { id: '3799', proyecto: 'IDRD', responsable: 'Angie Totaitive / Geraldine Fonseca', fechaTerminacion: '2027-12-28', fechaInicioPlaneada: '2026-09-28', fechaFinPlaneada: '2026-10-04', semana: 2, prioridad: 'Alta', estado: 'Pendiente', estadosFases: ['Completado', 'Completado', 'Completado', 'En proceso', ...Array(8).fill('Pendiente')] },
     { id: '1475-2025', proyecto: 'PTAR El Salitre', responsable: 'Ancizar Ramirez', fechaTerminacion: '2027-09-30', fechaInicioPlaneada: '2026-10-05', fechaFinPlaneada: '2026-10-08', semana: 3, prioridad: 'Media', estado: 'Pendiente' },
     { id: '185-2025', proyecto: 'Desbuild Embajada', responsable: 'Rafael Eguiz Benitez', fechaTerminacion: '2027-04-30', fechaInicioPlaneada: '2026-10-09', fechaFinPlaneada: '2026-10-12', semana: 3, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '01-2025', proyecto: 'Alboreto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-10-13', fechaFinPlaneada: '2026-10-15', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '469-2024', proyecto: 'RENOBO', responsable: 'Guillermo Trejos', fechaTerminacion: '2026-12-05', fechaInicioPlaneada: '2026-10-13', fechaFinPlaneada: '2026-10-15', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
     { id: '736-2025', proyecto: 'Fondo de desarrollo Local de Suba', responsable: 'Angie Alexandra Totaitive Beltran', fechaTerminacion: '2026-12-03', fechaInicioPlaneada: '2026-10-16', fechaFinPlaneada: '2026-10-19', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '469-2024', proyecto: 'RENOBO', responsable: 'Guillermo Trejos', fechaTerminacion: '2026-12-05', fechaInicioPlaneada: '2026-10-20', fechaFinPlaneada: '2026-10-22', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '01-2025', proyecto: 'Alboreto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-10-20', fechaFinPlaneada: '2026-10-22', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
     { id: '2358-2025', proyecto: 'Soacha', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-29', fechaInicioPlaneada: '2026-10-23', fechaFinPlaneada: '2026-10-26', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
     { id: '2949-2024', proyecto: 'Soacha Gerenciamiento', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-30', fechaInicioPlaneada: '2026-10-27', fechaFinPlaneada: '2026-10-29', semana: 6, prioridad: 'Media', estado: 'Pendiente' },
     { id: '384-2025', proyecto: 'Fondo de Desarrollo Local de Teusaquillo', responsable: 'Andrea López Peña', fechaTerminacion: '2026-11-17', fechaInicioPlaneada: '2026-10-30', fechaFinPlaneada: '2026-11-02', semana: 6, prioridad: 'Media', estado: 'Pendiente' },
@@ -54,11 +54,32 @@
   function cargarContratos() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (Array.isArray(saved) && saved.length) return saved;
+      if (Array.isArray(saved) && saved.length) return aplicarOrdenCronograma(saved);
     } catch (error) {
       console.warn('No fue posible leer el cronograma guardado.', error);
     }
-    return cloneIniciales();
+    return aplicarOrdenCronograma(cloneIniciales());
+  }
+
+  function aplicarOrdenCronograma(datos) {
+    const renobo = datos.find((contrato) => contrato.id === '469-2024');
+    const alboreto = datos.find((contrato) => contrato.id === '01-2025');
+    if (!renobo || !alboreto) return datos;
+
+    if (alboreto.fechaInicioPlaneada === '2026-10-13' && renobo.fechaInicioPlaneada === '2026-10-20') {
+      [renobo.fechaInicioPlaneada, alboreto.fechaInicioPlaneada] = [alboreto.fechaInicioPlaneada, renobo.fechaInicioPlaneada];
+      [renobo.fechaFinPlaneada, alboreto.fechaFinPlaneada] = [alboreto.fechaFinPlaneada, renobo.fechaFinPlaneada];
+      [renobo.semana, alboreto.semana] = [alboreto.semana, renobo.semana];
+    }
+
+    const ids = ['469-2024', '736-2025', '01-2025'];
+    const suba = datos.find((contrato) => contrato.id === '736-2025');
+    if (!suba) return datos;
+    const posiciones = ids.map((id) => datos.findIndex((contrato) => contrato.id === id));
+    const insercion = Math.min(...posiciones);
+    posiciones.sort((a, b) => b - a).forEach((indice) => datos.splice(indice, 1));
+    datos.splice(insercion, 0, renobo, suba, alboreto);
+    return datos;
   }
 
   function guardarContratos() {
@@ -117,7 +138,7 @@
       if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
       const resultado = await response.json();
       if (!resultado.ok) throw new Error(resultado.error || 'No fue posible leer Google Sheets.');
-      const remotos = normalizarContratos(resultado.data);
+      const remotos = aplicarOrdenCronograma(normalizarContratos(resultado.data));
       if (remotos.length) {
         contratos = remotos;
         guardarContratos();
