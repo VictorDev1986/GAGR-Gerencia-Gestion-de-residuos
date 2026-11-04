@@ -23,6 +23,7 @@
   const REFRESH_MS = Math.max(Number(CONFIG.refreshMs) || 60000, 15000);
   const PLAN_START = new Date('2026-09-21T00:00:00');
   const ESTADOS_TABLERO = ['Pendiente', 'En proceso', 'Completado', 'Bloqueado'];
+  const CONTRATOS_EXCLUIDOS = new Set(['384-2025']);
   const contratosIniciales = [
     { id: '457-2025', proyecto: 'UAESP', responsable: 'Gabriela Canal', fechaTerminacion: '2026-11-10', fechaInicioPlaneada: '2026-09-21', fechaFinPlaneada: '2026-09-23', semana: 1, prioridad: 'Alta', estado: 'En proceso', estadosFases: ['Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Pendiente'] },
     { id: '3799', proyecto: 'IDRD', responsable: 'Angie Totaitive / Geraldine Fonseca', fechaTerminacion: '2027-12-28', fechaInicioPlaneada: '2026-09-28', fechaFinPlaneada: '2026-10-04', semana: 2, prioridad: 'Alta', estado: 'Pendiente', estadosFases: ['Completado', 'Completado', 'Completado', 'En proceso', ...Array(8).fill('Pendiente')] },
@@ -30,16 +31,15 @@
     { id: '185-2025', proyecto: 'Desbuild Embajada', responsable: 'Rafael Eguiz Benitez', fechaTerminacion: '2027-04-30', fechaInicioPlaneada: '2026-10-09', fechaFinPlaneada: '2026-10-12', semana: 3, prioridad: 'Media', estado: 'Pendiente' },
     { id: '469-2024', proyecto: 'RENOBO', responsable: 'Guillermo Trejos', fechaTerminacion: '2026-12-05', fechaInicioPlaneada: '2026-10-13', fechaFinPlaneada: '2026-10-15', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
     { id: '736-2025', proyecto: 'Fondo de desarrollo Local de Suba', responsable: 'Angie Alexandra Totaitive Beltran', fechaTerminacion: '2026-12-03', fechaInicioPlaneada: '2026-10-16', fechaFinPlaneada: '2026-10-19', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '01-2025', proyecto: 'Arboretto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-10-20', fechaFinPlaneada: '2026-10-22', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
     { id: '2358-2025', proyecto: 'Soacha', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-29', fechaInicioPlaneada: '2026-10-23', fechaFinPlaneada: '2026-10-26', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '2949-2024', proyecto: 'Soacha Gerenciamiento', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-30', fechaInicioPlaneada: '2026-10-27', fechaFinPlaneada: '2026-10-29', semana: 6, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '384-2025', proyecto: 'Fondo de Desarrollo Local de Teusaquillo', responsable: 'Andrea López Peña', fechaTerminacion: '2026-11-17', fechaInicioPlaneada: '2026-10-30', fechaFinPlaneada: '2026-11-02', semana: 6, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '1668-2024', proyecto: 'Apoyo Labores Red Troncal EAAB', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-10-02', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 7, prioridad: 'Alta', estado: 'Pendiente' },
+    { id: '1668-2024', proyecto: 'Apoyo Labores Red Troncal EAAB', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-10-02', fechaInicioPlaneada: '2026-10-27', fechaFinPlaneada: '2026-10-29', semana: 5, prioridad: 'Alta', estado: 'Pendiente' },
+    { id: '2949-2024', proyecto: 'Soacha Gerenciamiento', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-30', fechaInicioPlaneada: '2026-10-30', fechaFinPlaneada: '2026-11-02', semana: 6, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '2509-2025', proyecto: 'Alcaldía de Soacha - Puntos Críticos', responsable: 'Gabriela Canal', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 6, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '306-2025', proyecto: 'Chapinero', responsable: 'Paola Dulce Diaz', fechaTerminacion: '2026-09-26', fechaInicioPlaneada: '2026-11-06', fechaFinPlaneada: '2026-11-09', semana: 7, prioridad: 'Alta', estado: 'Pendiente' },
-    { id: '2509-2025', proyecto: 'Alcaldía de Soacha - Puntos Críticos', responsable: 'Gabriela Canal', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-10', fechaFinPlaneada: '2026-11-12', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
-    { id: '411-2025', proyecto: 'Fondo de Desarrollo Local de La Candelaria', responsable: 'Andrea López', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-13', fechaFinPlaneada: '2026-11-16', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
-    { id: '840-2025', proyecto: 'Ministerio del Deporte', responsable: 'Leonardo Reyes', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-17', fechaFinPlaneada: '2026-11-20', semana: 9, prioridad: 'Alta', estado: 'Pendiente' },
-    { id: '1561-2026', proyecto: 'Idutaches', responsable: 'Juliana Pinzon', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-21', fechaFinPlaneada: '2026-11-23', semana: 9, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '411-2025', proyecto: 'Fondo de Desarrollo Local de La Candelaria', responsable: 'Andrea López', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-10', fechaFinPlaneada: '2026-11-12', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
+    { id: '840-2025', proyecto: 'Ministerio del Deporte', responsable: 'Leonardo Reyes', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-13', fechaFinPlaneada: '2026-11-16', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
+    { id: '1561-2026', proyecto: 'Idutaches', responsable: 'Juliana Pinzon', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-17', fechaFinPlaneada: '2026-11-20', semana: 9, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '01-2025', proyecto: 'Arboretto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-21', fechaFinPlaneada: '2026-11-23', semana: 9, prioridad: 'Media', estado: 'Pendiente' },
   ];
 
   const $ = (selector) => document.querySelector(selector);
@@ -62,14 +62,30 @@
   }
 
   function aplicarOrdenCronograma(datos) {
+    datos = datos.filter((contrato) => !CONTRATOS_EXCLUIDOS.has(contrato.id));
+    const calendario = {
+      '1668-2024': ['2026-10-27', '2026-10-29', 5],
+      '2949-2024': ['2026-10-30', '2026-11-02', 6],
+      '2509-2025': ['2026-11-03', '2026-11-05', 6],
+      '306-2025': ['2026-11-06', '2026-11-09', 7],
+      '411-2025': ['2026-11-10', '2026-11-12', 8],
+      '840-2025': ['2026-11-13', '2026-11-16', 8],
+      '1561-2026': ['2026-11-17', '2026-11-20', 9],
+      '01-2025': ['2026-11-21', '2026-11-23', 9],
+    };
+    datos.forEach((contrato) => {
+      const fechas = calendario[contrato.id];
+      if (!fechas) return;
+      [contrato.fechaInicioPlaneada, contrato.fechaFinPlaneada, contrato.semana] = fechas;
+    });
     const renobo = datos.find((contrato) => contrato.id === '469-2024');
-    const alboreto = datos.find((contrato) => contrato.id === '01-2025');
-    if (!renobo || !alboreto) return datos;
+    const arboretto = datos.find((contrato) => contrato.id === '01-2025');
+    if (!renobo || !arboretto) return datos;
 
-    if (alboreto.fechaInicioPlaneada === '2026-10-13' && renobo.fechaInicioPlaneada === '2026-10-20') {
-      [renobo.fechaInicioPlaneada, alboreto.fechaInicioPlaneada] = [alboreto.fechaInicioPlaneada, renobo.fechaInicioPlaneada];
-      [renobo.fechaFinPlaneada, alboreto.fechaFinPlaneada] = [alboreto.fechaFinPlaneada, renobo.fechaFinPlaneada];
-      [renobo.semana, alboreto.semana] = [alboreto.semana, renobo.semana];
+    if (arboretto.fechaInicioPlaneada === '2026-10-13' && renobo.fechaInicioPlaneada === '2026-10-20') {
+      [renobo.fechaInicioPlaneada, arboretto.fechaInicioPlaneada] = [arboretto.fechaInicioPlaneada, renobo.fechaInicioPlaneada];
+      [renobo.fechaFinPlaneada, arboretto.fechaFinPlaneada] = [arboretto.fechaFinPlaneada, renobo.fechaFinPlaneada];
+      [renobo.semana, arboretto.semana] = [arboretto.semana, renobo.semana];
     }
 
     const ids = ['469-2024', '736-2025', '01-2025'];
@@ -78,7 +94,21 @@
     const posiciones = ids.map((id) => datos.findIndex((contrato) => contrato.id === id));
     const insercion = Math.min(...posiciones);
     posiciones.sort((a, b) => b - a).forEach((indice) => datos.splice(indice, 1));
-    datos.splice(insercion, 0, renobo, suba, alboreto);
+    datos.splice(insercion, 0, renobo, suba, arboretto);
+
+    const apoyoRedTroncal = datos.find((contrato) => contrato.id === '1668-2024');
+    const soacha = datos.find((contrato) => contrato.id === '2358-2025');
+    if (apoyoRedTroncal && soacha) {
+      datos.splice(datos.indexOf(apoyoRedTroncal), 1);
+      datos.splice(datos.indexOf(soacha) + 1, 0, apoyoRedTroncal);
+    }
+
+    datos.splice(datos.indexOf(arboretto), 1);
+    datos.push(arboretto);
+
+    const ordenCronograma = ['457-2025', '3799', '1475-2025', '185-2025', '469-2024', '736-2025', '2358-2025', '1668-2024', '2949-2024', '2509-2025', '306-2025', '411-2025', '840-2025', '1561-2026', '01-2025'];
+    datos.sort((a, b) => ordenCronograma.indexOf(a.id) - ordenCronograma.indexOf(b.id));
+
     return datos;
   }
 
@@ -92,10 +122,19 @@
 
   function normalizarContratos(datos) {
     if (!Array.isArray(datos)) return [];
-    return datos.filter((contrato) => contrato && contrato.id).map((contrato) => ({
+    return datos.filter((contrato) => contrato && contrato.id && !CONTRATOS_EXCLUIDOS.has(contrato.id)).map((contrato) => ({
       ...contrato,
+      proyecto: contrato.id === '01-2025' ? 'Arboretto' : contrato.proyecto,
       responsable: contrato.id === '1668-2024' ? 'Ricardo Bermudez' : contrato.responsable,
       semana: Number(contrato.semana) || 0,
+      ...(contrato.id === '1668-2024' && { fechaInicioPlaneada: '2026-10-27', fechaFinPlaneada: '2026-10-29', semana: 5 }),
+      ...(contrato.id === '2949-2024' && { fechaInicioPlaneada: '2026-10-30', fechaFinPlaneada: '2026-11-02', semana: 6 }),
+      ...(contrato.id === '2509-2025' && { fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 6 }),
+      ...(contrato.id === '306-2025' && { fechaInicioPlaneada: '2026-11-06', fechaFinPlaneada: '2026-11-09', semana: 7 }),
+      ...(contrato.id === '411-2025' && { fechaInicioPlaneada: '2026-11-10', fechaFinPlaneada: '2026-11-12', semana: 8 }),
+      ...(contrato.id === '840-2025' && { fechaInicioPlaneada: '2026-11-13', fechaFinPlaneada: '2026-11-16', semana: 8 }),
+      ...(contrato.id === '1561-2026' && { fechaInicioPlaneada: '2026-11-17', fechaFinPlaneada: '2026-11-20', semana: 9 }),
+      ...(contrato.id === '01-2025' && { fechaInicioPlaneada: '2026-11-21', fechaFinPlaneada: '2026-11-23', semana: 9 }),
       fases: FASES.map((nombre, index) => ({
         nombre,
         estado: ESTADOS_TABLERO.includes(contrato.fases?.[index]?.estado) ? contrato.fases[index].estado : 'Pendiente',
