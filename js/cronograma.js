@@ -34,7 +34,7 @@
     { id: '2358-2025', proyecto: 'Soacha', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-29', fechaInicioPlaneada: '2026-10-23', fechaFinPlaneada: '2026-10-26', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
     { id: '2949-2024', proyecto: 'Soacha Gerenciamiento', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-30', fechaInicioPlaneada: '2026-10-27', fechaFinPlaneada: '2026-10-29', semana: 6, prioridad: 'Media', estado: 'Pendiente' },
     { id: '384-2025', proyecto: 'Fondo de Desarrollo Local de Teusaquillo', responsable: 'Andrea López Peña', fechaTerminacion: '2026-11-17', fechaInicioPlaneada: '2026-10-30', fechaFinPlaneada: '2026-11-02', semana: 6, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '1668-2024', proyecto: 'Apoyo Labores Red Troncal EAAB', responsable: 'Wilson Riveros', fechaTerminacion: '2026-10-02', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 7, prioridad: 'Alta', estado: 'Pendiente' },
+    { id: '1668-2024', proyecto: 'Apoyo Labores Red Troncal EAAB', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-10-02', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 7, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '306-2025', proyecto: 'Chapinero', responsable: 'Paola Dulce Diaz', fechaTerminacion: '2026-09-26', fechaInicioPlaneada: '2026-11-06', fechaFinPlaneada: '2026-11-09', semana: 7, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '2509-2025', proyecto: 'Alcaldía de Soacha - Puntos Críticos', responsable: 'Gabriela Canal', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-10', fechaFinPlaneada: '2026-11-12', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '411-2025', proyecto: 'Fondo de Desarrollo Local de La Candelaria', responsable: 'Andrea López', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-13', fechaFinPlaneada: '2026-11-16', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
@@ -94,6 +94,7 @@
     if (!Array.isArray(datos)) return [];
     return datos.filter((contrato) => contrato && contrato.id).map((contrato) => ({
       ...contrato,
+      responsable: contrato.id === '1668-2024' ? 'Ricardo Bermudez' : contrato.responsable,
       semana: Number(contrato.semana) || 0,
       fases: FASES.map((nombre, index) => ({
         nombre,
