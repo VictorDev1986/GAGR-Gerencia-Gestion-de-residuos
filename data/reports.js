@@ -15,7 +15,7 @@ window.REPORTS = [
   contrato(3, 'PTAR Salitre', 'https://app.powerbi.com/view?r=eyJrIjoiNGU3YTdkNTctODBmNi00ZmE3LTk1MTEtOThkMTliMWE3ZTA1IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Estudios, diseños y construcción de redes locales del tanque El Vínculo en Soacha.'),
   contrato(4, 'Desbuild Embajada', 'https://app.powerbi.com/view?r=eyJrIjoiODZkNTc2OTYtNTZkMy00MjQ5LWE2MTEtN2IxNDc4NzIzOTcwIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Transporte y disposición final de residuos.'),
   contrato(5, 'RENOBO', 'https://app.powerbi.com/view?r=eyJrIjoiYTQ2YzZkMjQtNzZkMC00MTVhLTg2ODgtNzc1YWIzNTNiNTRmIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Intervención y adecuación de lotes, incluyendo labores de poda y alambrado.'),
-  contrato(6, 'Fondo de desarrollo Local de Suba', '', 'Restauración ecológica, renaturalización y mantenimiento del arbolado en Suba.'),
+  contrato(6, 'Fondo de desarrollo Local de Suba', 'https://app.powerbi.com/view?r=eyJrIjoiYTQ5OTAwYjAtYzJkNS00YjEwLWE1NjMtMGU1MzEzYTI3Y2YyIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Restauración ecológica, renaturalización y mantenimiento del arbolado en Suba.'),
   contrato(7, 'Arboretto', ''),
   contrato(8, 'Soacha', ''),
   contrato(9, 'Soacha Gerenciamiento', '', 'Gerencia integral de obras de alcantarillado sanitario y pluvial.'),
