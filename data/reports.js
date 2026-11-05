@@ -25,4 +25,5 @@ window.REPORTS = [
   contrato(16, 'Ministerio del Deporte', ''),
   contrato(17, 'Idutaches', ''),
   contrato(7, 'Arboretto', ''),
+  contrato(18, 'Maquinaria y mantenimiento GAGR', '', 'Seguimiento de maquinaria, mantenimiento y operación de la Gerencia de Aguas y Gestión de Residuos.'),
 ];

@@ -10,7 +10,7 @@ La navegación entre páginas **dentro** de un tablero público de Power BI ocur
 
 ## Estado del catálogo
 
-El portal tiene 14 espacios previstos. El documento «CONTRATOS MACROS VIGENTES» permitió identificar 12 contratos. El tablero del contrato **CL 457-2025 UAESP** ya tiene un enlace de Power BI; los demás se muestran como pendientes hasta recibir sus enlaces. Los espacios 13 y 14 permanecen provisionales.
+El portal tiene 16 espacios previstos. El documento «CONTRATOS MACROS VIGENTES» permitió identificar 12 contratos. El tablero del contrato **CL 457-2025 UAESP** ya tiene un enlace de Power BI; los demás se muestran como pendientes hasta recibir sus enlaces. El espacio **Maquinaria y mantenimiento GAGR** queda disponible en el menú y en el cronograma, pendiente de publicación de su enlace de Power BI.
 
 ## Abrir y actualizar
 

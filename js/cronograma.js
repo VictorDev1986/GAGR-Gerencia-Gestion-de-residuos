@@ -40,9 +40,23 @@
     { id: '840-2025', proyecto: 'Ministerio del Deporte', responsable: 'Leonardo Reyes', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-11-13', fechaFinPlaneada: '2026-11-16', semana: 8, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '1561-2026', proyecto: 'Idutaches', responsable: 'Juliana Pinzon', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-17', fechaFinPlaneada: '2026-11-20', semana: 9, prioridad: 'Media', estado: 'Pendiente' },
     { id: '01-2025', proyecto: 'Arboretto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-21', fechaFinPlaneada: '2026-11-23', semana: 9, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '18', proyecto: 'Maquinaria y mantenimiento GAGR', responsable: '', fechaTerminacion: '', fechaInicioPlaneada: '', fechaFinPlaneada: '', semana: 10, prioridad: 'Media', estado: 'Pendiente' },
   ];
 
   const $ = (selector) => document.querySelector(selector);
+  function incluirTablerosNuevos(datos) {
+    if (!datos.some((contrato) => contrato.id === '18')) {
+      const maquinaria = contratosIniciales.find((contrato) => contrato.id === '18');
+      if (maquinaria) {
+        datos.push({
+          ...maquinaria,
+          fases: FASES.map((nombre) => ({ nombre, estado: 'Pendiente' })),
+        });
+      }
+    }
+    return datos;
+  }
+
   const cloneIniciales = () => contratosIniciales.map((contrato) => ({ ...contrato, fases: FASES.map((nombre, index) => ({ nombre, estado: contrato.estadosFases?.[index] || 'Pendiente' })) }));
   let contratos = cargarContratos();
   let chart;
@@ -54,7 +68,7 @@
   function cargarContratos() {
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-      if (Array.isArray(saved) && saved.length) return aplicarOrdenCronograma(saved);
+      if (Array.isArray(saved) && saved.length) return aplicarOrdenCronograma(incluirTablerosNuevos(saved));
     } catch (error) {
       console.warn('No fue posible leer el cronograma guardado.', error);
     }
@@ -106,7 +120,7 @@
     datos.splice(datos.indexOf(arboretto), 1);
     datos.push(arboretto);
 
-    const ordenCronograma = ['457-2025', '3799', '1475-2025', '185-2025', '469-2024', '736-2025', '2358-2025', '1668-2024', '2949-2024', '2509-2025', '306-2025', '411-2025', '840-2025', '1561-2026', '01-2025'];
+    const ordenCronograma = ['457-2025', '3799', '1475-2025', '185-2025', '469-2024', '736-2025', '2358-2025', '1668-2024', '2949-2024', '2509-2025', '306-2025', '411-2025', '840-2025', '1561-2026', '01-2025', '18'];
     datos.sort((a, b) => ordenCronograma.indexOf(a.id) - ordenCronograma.indexOf(b.id));
 
     return datos;
@@ -178,7 +192,7 @@
       if (!response.ok) throw new Error(`Error HTTP ${response.status}`);
       const resultado = await response.json();
       if (!resultado.ok) throw new Error(resultado.error || 'No fue posible leer Google Sheets.');
-      const remotos = aplicarOrdenCronograma(normalizarContratos(resultado.data));
+      const remotos = aplicarOrdenCronograma(incluirTablerosNuevos(normalizarContratos(resultado.data)));
       if (remotos.length) {
         contratos = remotos;
         guardarContratos();
@@ -255,7 +269,10 @@
   }
 
   function formatDate(date, options = { day: '2-digit', month: 'short' }) {
-    return new Intl.DateTimeFormat('es-CO', options).format(new Date(`${date}T00:00:00`)).replace('.', '');
+    if (!date) return '—';
+    const parsed = new Date(`${date}T00:00:00`);
+    if (Number.isNaN(parsed.getTime())) return '—';
+    return new Intl.DateTimeFormat('es-CO', options).format(parsed).replace('.', '');
   }
 
   function formatRange(start, end) {
