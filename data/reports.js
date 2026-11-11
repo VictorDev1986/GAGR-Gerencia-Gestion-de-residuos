@@ -19,7 +19,6 @@ window.REPORTS = [
   contrato(8, 'Soacha', ''),
   contrato(11, 'Apoyo Labores Red Troncal EAAB', '', 'Apoyo al mantenimiento de la red troncal de alcantarillado y recuperación del espacio público.'),
   contrato(9, 'Soacha Gerenciamiento', '', 'Gerencia integral de obras de alcantarillado sanitario y pluvial.'),
-  contrato(13, 'Alcaldía de Soacha - Puntos Críticos', '', 'Recolección y disposición de residuos sólidos en puntos críticos de Soacha.'),
   contrato(12, 'Chapinero', '', 'Procesos ambientales, consumo responsable, separación en la fuente y reciclaje.'),
   contrato(15, 'Fondo de Desarrollo Local de La Candelaria', ''),
   contrato(16, 'Ministerio del Deporte', ''),
