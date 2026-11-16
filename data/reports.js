@@ -24,5 +24,5 @@ window.REPORTS = [
   contrato(16, 'Ministerio del Deporte', ''),
   contrato(17, 'Idutaches', ''),
   contrato(7, 'Arboretto', ''),
-  contrato(18, 'Maquinaria y mantenimiento GAGR', 'https://app.powerbi.com/view?r=eyJrIjoiNDFhMjg1OTEtNzFjMi00ZjM4LWIzYjctNTAxNzRmYzkzNDU0IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Seguimiento de maquinaria, mantenimiento y operación de la Gerencia de Aguas y Gestión de Residuos.'),
+  contrato(18, 'Maquinaria y mantenimiento GAGR', 'https://app.powerbi.com/view?r=eyJrIjoiN2QxODk2NWYtM2UzYy00OTg4LWIyMGItMTAxMjhhNjgwNTQ3IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Seguimiento de maquinaria, mantenimiento y operación de la Gerencia de Aguas y Gestión de Residuos.'),
 ];
