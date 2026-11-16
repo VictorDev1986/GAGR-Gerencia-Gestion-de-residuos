@@ -23,7 +23,7 @@
   const REFRESH_MS = Math.max(Number(CONFIG.refreshMs) || 60000, 15000);
   const PLAN_START = new Date('2026-09-21T00:00:00');
   const ESTADOS_TABLERO = ['Pendiente', 'En proceso', 'Completado', 'Bloqueado'];
-  const CONTRATOS_EXCLUIDOS = new Set(['384-2025', '2509-2025']);
+  const CONTRATOS_EXCLUIDOS = new Set(['384-2025', '2509-2025', '840-2025', '306-2025', '411-2025']);
   const contratosIniciales = [
     { id: '457-2025', proyecto: 'UAESP', responsable: 'Gabriela Canal', fechaTerminacion: '2026-11-10', fechaInicioPlaneada: '2026-09-21', fechaFinPlaneada: '2026-09-23', semana: 1, prioridad: 'Alta', estado: 'En proceso', estadosFases: ['Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Completado', 'Pendiente'] },
     { id: '3799', proyecto: 'IDRD', responsable: 'Angie Totaitive / Geraldine Fonseca', fechaTerminacion: '2027-12-28', fechaInicioPlaneada: '2026-09-24', fechaFinPlaneada: '2026-09-28', semana: 1, prioridad: 'Alta', estado: 'Pendiente', estadosFases: ['Completado', 'Completado', 'Completado', 'En proceso', ...Array(8).fill('Pendiente')] },
@@ -34,9 +34,6 @@
     { id: '2358-2025', proyecto: 'Soacha', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-29', fechaInicioPlaneada: '2026-10-13', fechaFinPlaneada: '2026-10-15', semana: 4, prioridad: 'Media', estado: 'Pendiente' },
     { id: '1668-2024', proyecto: 'Apoyo Labores Red Troncal EAAB', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-10-02', fechaInicioPlaneada: '2026-10-16', fechaFinPlaneada: '2026-10-19', semana: 4, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '2949-2024', proyecto: 'Soacha Gerenciamiento', responsable: 'Jaime Tovar', fechaTerminacion: '2026-11-30', fechaInicioPlaneada: '2026-10-20', fechaFinPlaneada: '2026-10-22', semana: 5, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '306-2025', proyecto: 'Chapinero', responsable: 'Paola Dulce Diaz', fechaTerminacion: '2026-09-26', fechaInicioPlaneada: '2026-10-23', fechaFinPlaneada: '2026-10-26', semana: 5, prioridad: 'Alta', estado: 'Pendiente' },
-    { id: '411-2025', proyecto: 'Fondo de Desarrollo Local de La Candelaria', responsable: 'Andrea López', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-10-27', fechaFinPlaneada: '2026-10-29', semana: 6, prioridad: 'Alta', estado: 'Pendiente' },
-    { id: '840-2025', proyecto: 'Ministerio del Deporte', responsable: 'Leonardo Reyes', fechaTerminacion: '2026-09-30', fechaInicioPlaneada: '2026-10-30', fechaFinPlaneada: '2026-11-02', semana: 6, prioridad: 'Alta', estado: 'Pendiente' },
     { id: '1561-2026', proyecto: 'Idutaches', responsable: 'Juliana Pinzon', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 7, prioridad: 'Media', estado: 'Pendiente' },
     { id: '01-2025', proyecto: 'Arboretto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-06', fechaFinPlaneada: '2026-11-09', semana: 7, prioridad: 'Media', estado: 'Pendiente' },
     { id: '18', proyecto: 'Maquinaria y mantenimiento GAGR', responsable: '', fechaTerminacion: '', fechaInicioPlaneada: '', fechaFinPlaneada: '', semana: 8, prioridad: 'Media', estado: 'Pendiente' },
@@ -86,9 +83,6 @@
       '2358-2025': ['2026-10-12', '2026-10-18', 4],
       '1668-2024': ['2026-10-12', '2026-10-18', 4],
       '2949-2024': ['2026-10-19', '2026-10-25', 5],
-      '306-2025': ['2026-10-19', '2026-10-25', 5],
-      '411-2025': ['2026-10-26', '2026-11-01', 6],
-      '840-2025': ['2026-10-26', '2026-11-01', 6],
       '1561-2026': ['2026-11-02', '2026-11-08', 7],
       '01-2025': ['2026-11-02', '2026-11-08', 7],
       '18': ['2026-11-09', '2026-11-15', 8],
@@ -126,7 +120,7 @@
     datos.splice(datos.indexOf(arboretto), 1);
     datos.push(arboretto);
 
-    const ordenCronograma = ['457-2025', '3799', '1475-2025', '185-2025', '469-2024', '736-2025', '2358-2025', '1668-2024', '2949-2024', '306-2025', '411-2025', '840-2025', '1561-2026', '01-2025', '18'];
+    const ordenCronograma = ['457-2025', '3799', '1475-2025', '185-2025', '469-2024', '736-2025', '2358-2025', '1668-2024', '2949-2024', '1561-2026', '01-2025', '18'];
     datos.sort((a, b) => ordenCronograma.indexOf(a.id) - ordenCronograma.indexOf(b.id));
 
     return datos;
