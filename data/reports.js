@@ -17,7 +17,7 @@ window.REPORTS = [
   contrato(5, 'RENOBO', 'https://app.powerbi.com/view?r=eyJrIjoiYTQ2YzZkMjQtNzZkMC00MTVhLTg2ODgtNzc1YWIzNTNiNTRmIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Intervención y adecuación de lotes, incluyendo labores de poda y alambrado.'),
   contrato(6, 'Fondo de desarrollo Local de Suba', 'https://app.powerbi.com/view?r=eyJrIjoiYTQ5OTAwYjAtYzJkNS00YjEwLWE1NjMtMGU1MzEzYTI3Y2YyIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Restauración ecológica, renaturalización y mantenimiento del arbolado en Suba.'),
   contrato(8, 'Soacha 2358-2024', 'https://app.powerbi.com/view?r=eyJrIjoiMWEzZDk2Y2UtZDA2OC00NTczLTgxMDAtMGJmMTI0ODMxNDE1IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9'),
-  contrato(11, 'Apoyo Labores Red Troncal EAAB', '', 'Apoyo al mantenimiento de la red troncal de alcantarillado y recuperación del espacio público.'),
+  contrato(11, 'Apoyo Labores Red Troncal EAAB', 'https://app.powerbi.com/view?r=eyJrIjoiMWI2ZjU0OGMtNWY3Ny00OGZkLWEzMzQtNjJhMzM3MjQzZGRlIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Apoyo al mantenimiento de la red troncal de alcantarillado y recuperación del espacio público.'),
   contrato(9, 'Soacha 2949-2024', 'https://app.powerbi.com/view?r=eyJrIjoiODk1NDI3OTEtNTMzZS00NTU3LTg4ZTUtYjU0ZmVjNWI3NTI3IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Gerencia integral de obras de alcantarillado sanitario y pluvial.'),
   contrato(17, 'Idutaches', ''),
   contrato(7, 'Arboretto', ''),
