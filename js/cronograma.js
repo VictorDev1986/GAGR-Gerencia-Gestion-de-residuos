@@ -37,19 +37,21 @@
     { id: '1561-2026', proyecto: 'Idutaches', responsable: 'Juliana Pinzon', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 7, prioridad: 'Media', estado: 'Pendiente' },
     { id: '01-2025', proyecto: 'Arboretto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-06', fechaFinPlaneada: '2026-11-09', semana: 7, prioridad: 'Media', estado: 'Pendiente' },
     { id: '18', proyecto: 'Maquinaria y mantenimiento GAGR', responsable: '', fechaTerminacion: '', fechaInicioPlaneada: '', fechaFinPlaneada: '', semana: 8, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '711-2026', proyecto: 'FDL Teusaquillo', responsable: '', fechaTerminacion: '', fechaInicioPlaneada: '2026-11-17', fechaFinPlaneada: '2026-11-19', semana: 9, prioridad: 'Media', estado: 'Pendiente' },
   ];
 
   const $ = (selector) => document.querySelector(selector);
   function incluirTablerosNuevos(datos) {
-    if (!datos.some((contrato) => contrato.id === '18')) {
-      const maquinaria = contratosIniciales.find((contrato) => contrato.id === '18');
-      if (maquinaria) {
+    ['18', '711-2026'].forEach((id) => {
+      if (datos.some((contrato) => contrato.id === id)) return;
+      const contratoInicial = contratosIniciales.find((contrato) => contrato.id === id);
+      if (contratoInicial) {
         datos.push({
-          ...maquinaria,
+          ...contratoInicial,
           fases: FASES.map((nombre) => ({ nombre, estado: 'Pendiente' })),
         });
       }
-    }
+    });
     return datos;
   }
 
@@ -86,6 +88,7 @@
       '1561-2026': ['2026-11-02', '2026-11-08', 7],
       '01-2025': ['2026-11-02', '2026-11-08', 7],
       '18': ['2026-11-09', '2026-11-15', 8],
+      '711-2026': ['2026-11-17', '2026-11-19', 9],
     };
     datos.forEach((contrato) => {
       const fechas = calendario[contrato.id];
@@ -120,7 +123,7 @@
     datos.splice(datos.indexOf(arboretto), 1);
     datos.push(arboretto);
 
-    const ordenCronograma = ['457-2025', '3799', '1475-2025', '185-2025', '469-2024', '736-2025', '2358-2025', '1668-2024', '2949-2024', '1561-2026', '01-2025', '18'];
+    const ordenCronograma = ['457-2025', '3799', '1475-2025', '185-2025', '469-2024', '736-2025', '2358-2025', '1668-2024', '2949-2024', '1561-2026', '01-2025', '18', '711-2026'];
     datos.sort((a, b) => ordenCronograma.indexOf(a.id) - ordenCronograma.indexOf(b.id));
 
     return datos;

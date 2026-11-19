@@ -22,4 +22,5 @@ window.REPORTS = [
   contrato(17, 'Idutaches', ''),
   contrato(7, 'Arboretto', ''),
   contrato(18, 'Maquinaria y mantenimiento GAGR', 'https://app.powerbi.com/view?r=eyJrIjoiYjdjOTAwYzEtM2M4YS00NTAyLWIyY2MtMjk2YjhkZDgxYzNkIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Seguimiento de maquinaria, mantenimiento y operación de la Gerencia de Aguas y Gestión de Residuos.'),
+  contrato(19, '711-2026 FDL Teusaquillo', ''),
 ];
