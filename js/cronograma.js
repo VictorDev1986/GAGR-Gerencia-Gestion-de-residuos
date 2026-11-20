@@ -37,11 +37,13 @@
     { id: '1561-2026', proyecto: 'Idutaches', responsable: 'Juliana Pinzon', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-03', fechaFinPlaneada: '2026-11-05', semana: 7, prioridad: 'Media', estado: 'Pendiente' },
     { id: '01-2025', proyecto: 'Arboretto', responsable: 'Ricardo Bermudez', fechaTerminacion: '2026-12-31', fechaInicioPlaneada: '2026-11-06', fechaFinPlaneada: '2026-11-09', semana: 7, prioridad: 'Media', estado: 'Pendiente' },
     { id: '18', proyecto: 'Maquinaria y mantenimiento GAGR', responsable: '', fechaTerminacion: '', fechaInicioPlaneada: '', fechaFinPlaneada: '', semana: 8, prioridad: 'Media', estado: 'Pendiente' },
-    { id: '711-2026', proyecto: 'FDL Teusaquillo', responsable: '', fechaTerminacion: '', fechaInicioPlaneada: '2026-11-17', fechaFinPlaneada: '2026-11-19', semana: 9, prioridad: 'Media', estado: 'Pendiente' },
+    { id: '711-2026', proyecto: 'FDL Teusaquillo', responsable: '', fechaTerminacion: '', fechaInicioPlaneada: '2026-11-17', fechaFinPlaneada: '2026-11-19', semana: 9, prioridad: 'Media', estado: 'Pendiente de inicio' },
   ];
 
   const $ = (selector) => document.querySelector(selector);
   function incluirTablerosNuevos(datos) {
+    const teusaquillo = datos.find((contrato) => contrato.id === '711-2026');
+    if (teusaquillo && teusaquillo.estado === 'Pendiente') teusaquillo.estado = 'Pendiente de inicio';
     ['18', '711-2026'].forEach((id) => {
       if (datos.some((contrato) => contrato.id === id)) return;
       const contratoInicial = contratosIniciales.find((contrato) => contrato.id === id);
@@ -250,6 +252,7 @@
     const progreso = calcularProgreso(contrato);
     if (progreso === 100) return 'Completado';
     if (progreso > 0) return 'En desarrollo';
+    if (contrato.estado === 'Pendiente de inicio') return 'Pendiente de inicio';
     return contrato.estado === 'Bloqueado' ? 'Bloqueado' : 'Pendiente';
   }
 
@@ -287,7 +290,7 @@
     const total = contratos.length;
     const completados = contratos.filter((contrato) => estadoCalculado(contrato) === 'Completado').length;
     const desarrollo = contratos.filter((contrato) => estadoCalculado(contrato) === 'En desarrollo').length;
-    const pendientes = contratos.filter((contrato) => estadoCalculado(contrato) === 'Pendiente').length;
+    const pendientes = contratos.filter((contrato) => ['Pendiente', 'Pendiente de inicio'].includes(estadoCalculado(contrato))).length;
     const avance = total ? Math.round(contratos.reduce((sum, contrato) => sum + calcularProgreso(contrato), 0) / total) : 0;
     [['total', total], ['completed', completados], ['progress', desarrollo], ['pending', pendientes], ['overall', `${avance}%`]].forEach(([id, value]) => { $(`#kpi-${id}`).textContent = value; });
     $('#overall-progress').style.width = `${avance}%`;

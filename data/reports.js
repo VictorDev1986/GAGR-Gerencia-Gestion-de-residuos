@@ -20,7 +20,7 @@ window.REPORTS = [
   contrato(11, 'Apoyo Labores Red Troncal EAAB', 'https://app.powerbi.com/view?r=eyJrIjoiMWI2ZjU0OGMtNWY3Ny00OGZkLWEzMzQtNjJhMzM3MjQzZGRlIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Apoyo al mantenimiento de la red troncal de alcantarillado y recuperación del espacio público.'),
   contrato(9, 'Soacha 2949-2024', 'https://app.powerbi.com/view?r=eyJrIjoiODk1NDI3OTEtNTMzZS00NTU3LTg4ZTUtYjU0ZmVjNWI3NTI3IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Gerencia integral de obras de alcantarillado sanitario y pluvial.'),
   contrato(17, 'Idutaches', ''),
-  contrato(7, 'Arboretto', ''),
+  contrato(7, 'Arboretto', 'https://app.powerbi.com/view?r=eyJrIjoiMDQ4ZmJiOTctZmQ5ZS00NGJhLTg5NGMtNTNhZTMwZWYzYTY3IiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9'),
   contrato(18, 'Maquinaria y mantenimiento GAGR', 'https://app.powerbi.com/view?r=eyJrIjoiYjdjOTAwYzEtM2M4YS00NTAyLWIyY2MtMjk2YjhkZDgxYzNkIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Seguimiento de maquinaria, mantenimiento y operación de la Gerencia de Aguas y Gestión de Residuos.'),
-  contrato(19, 'FDL de Teusaquillo', ''),
+  contrato(19, 'FDL de Teusaquillo', 'https://app.powerbi.com/view?r=eyJrIjoiYzZhMmZiMWYtOTFmMS00MDZiLWJmMjktYjhiOTgyMzk2NGRlIiwidCI6ImMzNmY1Mzg5LTkyMmMtNGMxZS1iNDI2LTUwYmJmNmExOWNmZiIsImMiOjR9', 'Restauración ecológica, renaturalización y mantenimiento del arbolado en Teusaquillo.'),
 ];
